@@ -3,15 +3,16 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { withBase } from "../utils/paths.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const MODEL_SET = [
-  { path: "/assets/food-kit/cup-coffee.glb", scale: 1.4, spin: 0.8 },
-  { path: "/assets/food-kit/cupcake.glb", scale: 1.55, spin: 1.2 },
-  { path: "/assets/food-kit/burger.glb", scale: 1.28, spin: 0.9 },
-  { path: "/assets/food-kit/pizza.glb", scale: 1.35, spin: 1.15 },
-  { path: "/assets/food-kit/fries.glb", scale: 1.32, spin: 1.05 },
+  { path: withBase("/assets/food-kit/cup-coffee.glb"), scale: 1.4, spin: 0.8 },
+  { path: withBase("/assets/food-kit/cupcake.glb"), scale: 1.55, spin: 1.2 },
+  { path: withBase("/assets/food-kit/burger.glb"), scale: 1.28, spin: 0.9 },
+  { path: withBase("/assets/food-kit/pizza.glb"), scale: 1.35, spin: 1.15 },
+  { path: withBase("/assets/food-kit/fries.glb"), scale: 1.32, spin: 1.05 },
 ];
 
 const DROP_LAYOUTS = [

@@ -1,4 +1,5 @@
 import CatMark from "./CatMark.jsx";
+import { withBase } from "../utils/paths.js";
 
 export default function ContractLetterScene({
   agreementRef,
@@ -12,7 +13,7 @@ export default function ContractLetterScene({
   return (
     <section className="contract-section" aria-label="契约与情书">
       <audio ref={audioRef} preload="auto">
-        <source src="/assets/type.mp3" type="audio/mpeg" />
+        <source src={withBase("/assets/type.mp3")} type="audio/mpeg" />
       </audio>
 
       <div className="contract-stage">

@@ -1,3 +1,5 @@
+import { withBase } from "../utils/paths.js";
+
 export const bootMessages = [
   "> init --boot improbable_coordinate_system --mode private",
   "[SYS] Kernel handshake established on encrypted emotional channel.",
@@ -261,7 +263,7 @@ export const travelPhotos = [
     country: "ISL",
     title: "Iceland",
     note: "想和你在风很大的海边，等一场极光把夜色点亮。",
-    image: "/assets/travel/photos/iceland.webp",
+    image: withBase("/assets/travel/photos/iceland.webp"),
     x: "57%",
     y: "19%",
     rotate: "-8deg",
@@ -279,7 +281,7 @@ export const travelPhotos = [
     country: "NZL",
     title: "Auckland",
     note: "想和你在港口和风之间散步，看城市一点点变成傍晚。",
-    image: "/assets/travel/photos/auckland.webp",
+    image: withBase("/assets/travel/photos/auckland.webp"),
     x: "77%",
     y: "30%",
     rotate: "6deg",
@@ -297,7 +299,7 @@ export const travelPhotos = [
     country: "MDV",
     title: "Maldives",
     note: "想和你把路线、风景和心跳都放慢一点，只剩海水和阳光。",
-    image: "/assets/travel/photos/maldives.webp",
+    image: withBase("/assets/travel/photos/maldives.webp"),
     x: "65%",
     y: "50%",
     rotate: "-5deg",
@@ -315,7 +317,7 @@ export const travelPhotos = [
     country: "PYF",
     title: "Tahiti",
     note: "想和你去很远的岛，听海风吹过火山和云层的声音。",
-    image: "/assets/travel/photos/tahiti.webp",
+    image: withBase("/assets/travel/photos/tahiti.webp"),
     x: "80%",
     y: "68%",
     rotate: "7deg",
@@ -351,7 +353,7 @@ export const travelGalleryPhotos = [
   id: `gallery-${id}`,
   title: `Memory ${String(index + 1).padStart(2, "0")}`,
   capture: index % 2 === 0 ? "for us" : "kept",
-  image: `/assets/travel/gallery-wall/${id}.webp`,
+  image: withBase(`/assets/travel/gallery-wall/${id}.webp`),
 }));
 
 export const homeNestLines = [
@@ -469,7 +471,7 @@ export const foodCardItems = [
     price: "$9",
     note: "save room for a soft beginning",
     image:
-      "/assets/food/photos/coffee.jpg",
+      withBase("/assets/food/photos/coffee.jpg"),
   },
   {
     titleEn: "Dessert",
@@ -478,7 +480,7 @@ export const foodCardItems = [
     price: "$14",
     note: "the kind that stays after dinner",
     image:
-      "/assets/food/photos/coffee.jpg",
+      withBase("/assets/food/photos/coffee.jpg"),
   },
   {
     titleEn: "Dinner",
@@ -487,7 +489,7 @@ export const foodCardItems = [
     price: "$18",
     note: "night / a small table / just us",
     image:
-      "/assets/food/photos/dinner.jpg",
+      withBase("/assets/food/photos/dinner.jpg"),
   },
   {
     titleEn: "Noodles",
@@ -496,7 +498,7 @@ export const foodCardItems = [
     price: "$16",
     note: "steam / winter / one bowl shared",
     image:
-      "/assets/food/photos/dinner.jpg",
+      withBase("/assets/food/photos/dinner.jpg"),
   },
   {
     titleEn: "Sushi",
@@ -505,7 +507,7 @@ export const foodCardItems = [
     price: "$22",
     note: "quiet night / a little celebration",
     image:
-      "/assets/food/photos/dinner.jpg",
+      withBase("/assets/food/photos/dinner.jpg"),
   },
 ];
 

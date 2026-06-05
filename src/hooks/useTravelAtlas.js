@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { withBase } from "../utils/paths.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const GLOBE_ASSETS = {
-  bg: "/assets/travel/globe/css_globe_bg.jpg",
-  diffuse: "/assets/travel/globe/css_globe_diffuse.jpg",
-  halo: "/assets/travel/globe/css_globe_halo.png",
+  bg: withBase("/assets/travel/globe/css_globe_bg.jpg"),
+  diffuse: withBase("/assets/travel/globe/css_globe_diffuse.jpg"),
+  halo: withBase("/assets/travel/globe/css_globe_halo.png"),
 };
 
 function clamp(value, min, max) {

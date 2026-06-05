@@ -1,6 +1,8 @@
 pages:
   image: node:22
   stage: deploy
+  variables:
+    VITE_BASE_PATH: "/love/"
   script:
     - npm ci
     - npm run build

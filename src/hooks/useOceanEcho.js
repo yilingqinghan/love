@@ -8,13 +8,14 @@ import { Sky } from "three/examples/jsm/objects/Sky.js";
 import { Water } from "three/examples/jsm/objects/Water.js";
 
 import { getFrameInterval, getSceneQuality } from "../utils/performance.js";
+import { withBase } from "../utils/paths.js";
 
 gsap.registerPlugin(ScrollTrigger, CustomEase);
 
 const OCEAN_SCROLL_DISTANCE = 9400;
 
-const DOLPHIN_MODEL_URL = "/assets/ocean/dolphin.glb";
-const WATER_NORMALS_URL = "/assets/ocean/dolphin-waternormals.jpg";
+const DOLPHIN_MODEL_URL = withBase("/assets/ocean/dolphin.glb");
+const WATER_NORMALS_URL = withBase("/assets/ocean/dolphin-waternormals.jpg");
 
 const dolphinEase = CustomEase.create(
   "dolphin-dawn",

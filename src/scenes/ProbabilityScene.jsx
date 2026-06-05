@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { useProbabilityField } from "../hooks/useProbabilityField.js";
+import { withBase } from "../utils/paths.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,22 +27,22 @@ const typeGroups = {
 };
 
 const mbtiAssets = {
-  INTJ: "/assets/mbti/intj-architect-male.svg",
-  INTP: "/assets/mbti/intp-logician-female.svg",
-  ENTJ: "/assets/mbti/entj-commander-female.svg",
-  ENTP: "/assets/mbti/entp-debater-male.svg",
-  INFJ: "/assets/mbti/infj-advocate-male.svg",
-  INFP: "/assets/mbti/infp-mediator-female.svg",
-  ENFJ: "/assets/mbti/enfj-protagonist-male.svg",
-  ENFP: "/assets/mbti/enfp-campaigner-female.svg",
-  ISTJ: "/assets/mbti/istj-logistician-male.svg",
-  ISFJ: "/assets/mbti/isfj-defender-female.svg",
-  ESTJ: "/assets/mbti/estj-executive-female.svg",
-  ESFJ: "/assets/mbti/esfj-consul-male.svg",
-  ISTP: "/assets/mbti/istp-virtuoso-male.svg",
-  ISFP: "/assets/mbti/isfp-adventurer-female.svg",
-  ESTP: "/assets/mbti/estp-entrepreneur-male.svg",
-  ESFP: "/assets/mbti/esfp-entertainer-female.svg",
+  INTJ: withBase("/assets/mbti/intj-architect-male.svg"),
+  INTP: withBase("/assets/mbti/intp-logician-female.svg"),
+  ENTJ: withBase("/assets/mbti/entj-commander-female.svg"),
+  ENTP: withBase("/assets/mbti/entp-debater-male.svg"),
+  INFJ: withBase("/assets/mbti/infj-advocate-male.svg"),
+  INFP: withBase("/assets/mbti/infp-mediator-female.svg"),
+  ENFJ: withBase("/assets/mbti/enfj-protagonist-male.svg"),
+  ENFP: withBase("/assets/mbti/enfp-campaigner-female.svg"),
+  ISTJ: withBase("/assets/mbti/istj-logistician-male.svg"),
+  ISFJ: withBase("/assets/mbti/isfj-defender-female.svg"),
+  ESTJ: withBase("/assets/mbti/estj-executive-female.svg"),
+  ESFJ: withBase("/assets/mbti/esfj-consul-male.svg"),
+  ISTP: withBase("/assets/mbti/istp-virtuoso-male.svg"),
+  ISFP: withBase("/assets/mbti/isfp-adventurer-female.svg"),
+  ESTP: withBase("/assets/mbti/estp-entrepreneur-male.svg"),
+  ESFP: withBase("/assets/mbti/esfp-entertainer-female.svg"),
 };
 
 const probabilityNarrative = [
@@ -183,7 +184,7 @@ const ProbabilityScene = forwardRef(function ProbabilityScene(
 
       <div className="selection-core" aria-hidden="true">
         <div className="selected-badge pair-badge male-badge">
-          <img src="/assets/mbti/enfj-protagonist-male.svg" alt="" />
+          <img src={withBase("/assets/mbti/enfj-protagonist-male.svg")} alt="" />
           <div>
             <small>他 / 2001.03.28 / ENFJ 白羊</small>
             <strong>0.181%</strong>

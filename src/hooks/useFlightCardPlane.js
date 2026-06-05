@@ -4,6 +4,7 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 import { getFrameInterval, getSceneQuality } from "../utils/performance.js";
+import { withBase } from "../utils/paths.js";
 
 export function useFlightCardPlane({ canvasRef, sectionRef }) {
   useEffect(() => {
@@ -40,12 +41,12 @@ export function useFlightCardPlane({ canvasRef, sectionRef }) {
     scene.add(fillLight);
 
     const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath("/assets/draco/gltf/");
+    dracoLoader.setDecoderPath(withBase("/assets/draco/gltf/"));
     const loader = new GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
     let disposed = false;
     let loadedModel = null;
-    loader.load("/assets/flight/plane.glb", (gltf) => {
+    loader.load(withBase("/assets/flight/plane.glb"), (gltf) => {
       if (disposed) return;
       loadedModel = gltf.scene;
       loadedModel.traverse((child) => {

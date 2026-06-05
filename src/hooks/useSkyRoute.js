@@ -6,6 +6,7 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 import { getFrameInterval, getSceneQuality } from "../utils/performance.js";
+import { withBase } from "../utils/paths.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,7 +54,7 @@ function createAirParticleLayer({ count = 1500 } = {}) {
 }
 
 function createCloudTexture() {
-  const texture = new THREE.TextureLoader().load("/assets/sky/cloud10.png");
+  const texture = new THREE.TextureLoader().load(withBase("/assets/sky/cloud10.png"));
   texture.minFilter = THREE.LinearMipMapLinearFilter;
   texture.magFilter = THREE.LinearMipMapLinearFilter;
   texture.generateMipmaps = true;
@@ -290,11 +291,11 @@ function createAircraftModel({ loadGltf = false } = {}) {
   let dracoLoader = null;
   if (loadGltf) {
     dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath("/assets/draco/gltf/");
+    dracoLoader.setDecoderPath(withBase("/assets/draco/gltf/"));
     const loader = new GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
     loader.load(
-      "/assets/flight/plane.glb",
+      withBase("/assets/flight/plane.glb"),
       (gltf) => {
         const model = gltf.scene;
         const box = new THREE.Box3().setFromObject(model);

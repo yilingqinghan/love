@@ -12,6 +12,7 @@ import ParallelAscentScene from "./scenes/ParallelAscentScene.jsx";
 import ProbabilityScene from "./scenes/ProbabilityScene.jsx";
 import SkyRouteScene from "./scenes/SkyRouteScene.jsx";
 import TravelAtlasScene from "./scenes/TravelAtlasScene.jsx";
+import { withBase } from "./utils/paths.js";
 import {
   bootMessages,
   oceanEchoLines,
@@ -98,9 +99,9 @@ export default function App() {
     <main
       className="site-shell"
       style={{
-        "--hero-image": 'url("/assets/hero-bg.jpg")',
-        "--timeline-image": 'url("/assets/timeline-bg.jpg")',
-        "--paper-texture": 'url("/assets/paper-texture.jpg")',
+        "--hero-image": `url("${withBase("/assets/hero-bg.jpg")}")`,
+        "--timeline-image": `url("${withBase("/assets/timeline-bg.jpg")}")`,
+        "--paper-texture": `url("${withBase("/assets/paper-texture.jpg")}")`,
       }}
     >
       <HeroScene ref={heroRef} />
