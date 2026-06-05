@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luxury Villa</title>
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: transparent;
+      }
+
+      a-scene {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <a-scene
+      embedded
+      renderer="alpha: true; antialias: true; colorManagement: true"
+      background="color: transparent"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+      loading-screen="enabled: false"
+    >
+      <a-assets>
+        <a-asset-item id="luxury-villa-asset" src="/assets/home/luxury_villa.glb"></a-asset-item>
+      </a-assets>
+
+      <a-entity id="ambient" light="type: ambient; intensity: 1.25; color: #ffffff"></a-entity>
+      <a-entity
+        id="key"
+        position="4.2 6 5.4"
+        light="type: directional; intensity: 2.1; castShadow: true; color: #ffffff"
+      ></a-entity>
+      <a-entity position="-4.2 3.6 1.2" light="type: point; intensity: 1.2; distance: 22; color: #c7e5ff"></a-entity>
+
+      <a-entity position="0 0 -8.5">
+        <a-entity
+          id="villa"
+          gltf-model="#luxury-villa-asset"
+          position="0 -2.45 0"
+          rotation="0 36 0"
+          scale="0.14 0.14 0.14"
+          shadow="cast: true; receive: true"
+          animation__idle="property: rotation; to: 0 396 0; dur: 42000; easing: linear; loop: true"
+        ></a-entity>
+
+        <a-circle
+          position="0 -2.62 0"
+          rotation="-90 0 0"
+          radius="6.4"
+          color="#232a31"
+          opacity="0.96"
+          shadow="receive: true"
+        ></a-circle>
+      </a-entity>
+
+      <a-camera position="0 2.4 9.8" fov="30"></a-camera>
+    </a-scene>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const angle = Number(params.get("angle") || 36);
+      const lightOn = params.get("light") !== "0";
+
+      window.addEventListener("DOMContentLoaded", () => {
+        const villa = document.getElementById("villa");
+        const ambient = document.getElementById("ambient");
+        const key = document.getElementById("key");
+
+        if (villa) {
+          villa.setAttribute(
+            "animation__focus",
+            `property: rotation; to: 0 ${angle} 0; dur: 1400; easing: easeInOutCubic`
+          );
+        }
+
+        if (ambient) {
+          ambient.setAttribute("light", `type: ambient; intensity: ${lightOn ? 1.15 : 0.52}; color: #fbe4bc`);
+        }
+
+        if (key) {
+          key.setAttribute(
+            "light",
+            `type: directional; intensity: ${lightOn ? 2.1 : 0.96}; castShadow: true; color: #ffffff`
+          );
+        }
+      });
+    </script>
+  </body>
+</html>

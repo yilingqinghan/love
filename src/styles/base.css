@@ -1,0 +1,72 @@
+:root {
+  --ink: #0d0d0c;
+  --ink-soft: #1b1b19;
+  --terminal: #a6ffb5;
+  --terminal-dim: rgba(166, 255, 181, 0.62);
+  --paper: #f3ebdc;
+  --paper-deep: #dfd1bc;
+  --paper-ink: #2c2924;
+  --warm-line: rgba(118, 84, 48, 0.34);
+  --gold: #c8a25c;
+  --signal: #d8fff0;
+  --muted: rgba(255, 255, 255, 0.62);
+  --serif: "Noto Serif SC", serif;
+  --mono: "Fira Code", monospace;
+  --hand: "Long Cang", cursive;
+  --romantic: "Ma Shan Zheng", "Long Cang", cursive;
+  --display: "Cormorant Garamond", "Noto Serif SC", serif;
+  --hero-image: none;
+  --timeline-image: none;
+  --paper-texture: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--ink);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: #f7f1e7;
+  background: var(--ink);
+  font-family: var(--serif);
+  letter-spacing: 0;
+}
+
+body.boot-lock {
+  overflow: hidden;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
+
+::selection {
+  color: #07100c;
+  background: var(--terminal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

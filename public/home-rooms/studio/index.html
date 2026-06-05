@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>CSS 3D Studio Room (Mine! 😅)</title>
+    <link rel="stylesheet" href="/assets/home-rooms/studio/normalize.css">
+<link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <audio class="ambience" muted="muted" playsinline="playsinline" autoplay="autoplay" loop="loop"></audio>
+<input id="zoom" type="checkbox"/>
+<label for="zoom" title="Toggle zoom">
+  <svg viewBox="0 0 24 24">
+    <path d="M15.5,14L20.5,19L19,20.5L14,15.5V14.71L13.73,14.43C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.43,13.73L14.71,14H15.5M9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14M12,10H10V12H9V10H7V9H9V7H10V9H12V10Z"></path>
+  </svg>
+  <svg viewBox="0 0 24 24">
+    <path d="M15.5,14H14.71L14.43,13.73C15.41,12.59 16,11.11 16,9.5A6.5,6.5 0 0,0 9.5,3A6.5,6.5 0 0,0 3,9.5A6.5,6.5 0 0,0 9.5,16C11.11,16 12.59,15.41 13.73,14.43L14,14.71V15.5L19,20.5L20.5,19L15.5,14M9.5,14C7,14 5,12 5,9.5C5,7 7,5 9.5,5C12,5 14,7 14,9.5C14,12 12,14 9.5,14M7,9H12V10H7V9Z"></path>
+  </svg>
+</label>
+<input id="audio" type="checkbox"/>
+<label for="audio" title="Toggle audio">
+  <svg viewBox="0 0 24 24">
+    <path d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12Z"></path>
+  </svg>
+  <svg viewBox="0 0 24 24">
+    <path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z"></path>
+  </svg>
+</label>
+<input id="dark" type="checkbox"/>
+<label for="dark" title="Toggle light">
+  <svg viewBox="0 0 24 24">
+    <path d="M9,2C7.95,2 6.95,2.16 6,2.46C10.06,3.73 13,7.5 13,12C13,16.5 10.06,20.27 6,21.54C6.95,21.84 7.95,22 9,22A10,10 0 0,0 19,12A10,10 0 0,0 9,2Z"></path>
+  </svg>
+  <svg viewBox="0 0 24 24">
+    <path d="M3.55,18.54L4.96,19.95L6.76,18.16L5.34,16.74M11,22.45C11.32,22.45 13,22.45 13,22.45V19.5H11M12,5.5A6,6 0 0,0 6,11.5A6,6 0 0,0 12,17.5A6,6 0 0,0 18,11.5C18,8.18 15.31,5.5 12,5.5M20,12.5H23V10.5H20M17.24,18.16L19.04,19.95L20.45,18.54L18.66,16.74M20.45,4.46L19.04,3.05L17.24,4.84L18.66,6.26M13,0.55H11V3.5H13M4,10.5H1V12.5H4M6.76,4.84L4.96,3.05L3.55,4.46L5.34,6.26L6.76,4.84Z"></path>
+  </svg>
+</label>
+<input id="spin" type="checkbox"/>
+<label for="spin" title="Toggle chair spin">
+  <svg viewBox="0 0 24 24">
+    <path d="M8,5.14V19.14L19,12.14L8,5.14Z"></path>
+  </svg>
+  <svg viewBox="0 0 24 24">
+    <path d="M18,18H6V6H18V18Z"></path>
+  </svg>
+</label>
+<div class="scene__wrapper">
+  <div class="scene">
+    <div class="plane">
+      <div class="studio">
+        <div class="cuboid floor">
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+        </div>
+        <div class="cuboid rug">
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+        </div>
+        <div class="cuboid wall wall--left">
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+        </div>
+        <div class="window">
+          <div class="cuboid window__frame window__frame--top">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid window__frame window__frame--left">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid window__frame window__frame--right">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid window__frame window__frame--bottom">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid window__frame window__frame--middle">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="blinds">
+            <div class="blind" style="--index: 0"></div>
+            <div class="blind" style="--index: 1"></div>
+            <div class="blind" style="--index: 2"></div>
+            <div class="blind" style="--index: 3"></div>
+            <div class="blind" style="--index: 4"></div>
+            <div class="blind" style="--index: 5"></div>
+            <div class="blind" style="--index: 6"></div>
+            <div class="blind" style="--index: 7"></div>
+            <div class="blind" style="--index: 8"></div>
+            <div class="blind" style="--index: 9"></div>
+            <div class="blind" style="--index: 10"></div>
+          </div>
+        </div>
+        <div class="cuboid wall wall--right-left">
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+        </div>
+        <div class="cuboid wall wall--right-upper">
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+        </div>
+        <div class="cuboid wall wall--right-right">
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+        </div>
+        <div class="cuboid skirting skirting--left">
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+        </div>
+        <div class="cuboid skirting skirting--right">
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+        </div>
+        <div class="cuboid windowsill">
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+        </div>
+        <div class="cuboid wall wall--right-lower">
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+        </div>
+        <div class="cuboid jfdi">
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+        </div>
+        <div class="cuboid shelf">
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+        </div>
+        <div class="plant"><img class="plant__plant" src="/assets/home-rooms/studio/plant.svg"/><img class="plant__plant" src="/assets/home-rooms/studio/plant.svg"/><img class="plant__plant" src="/assets/home-rooms/studio/plant.svg"/>
+          <div class="cuboid plant__pot">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+        </div>
+        <div class="cuboid light-cube">
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+        </div>
+        <div class="desk">
+          <div class="desk__shadow desk__shadow--floor"></div>
+          <div class="cuboid desk__leg desk__leg--left">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid desk__leg desk__leg--right">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid desk__leg desk__leg--bottom-left">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid desk__leg desk__leg--bottom-right">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid mac">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid desk__top">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid monitor__arm monitor__arm--main">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid monitor__arm monitor__arm--portrait">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid monitor monitor--main">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side">
+              <iframe src="about:blank"></iframe>
+            </div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid monitor monitor--portrait">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side">
+              <iframe src="about:blank"></iframe>
+            </div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="keyboard__base">
+            <div class="mousemat"></div>
+            <div class="cuboid mouse">
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+            </div>
+            <div class="cuboid keyboard">
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+            </div>
+            <div class="cuboid keyboard__keys">
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+            </div>
+          </div>
+          <div class="cuboid studio-light__stand">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid studio-light">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+        </div>
+        <div class="cuboid bear-canvas">
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+          <div class="cuboid__side"></div>
+        </div>
+        <div class="chair__base">
+          <div class="chair__shadow"></div>
+          <div class="cuboid chair__wheel chair__wheel--one">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid chair__wheel chair__wheel--two">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid chair__wheel chair__wheel--three">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid chair__wheel chair__wheel--four">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid chair__wheel chair__wheel--five">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid chair__leg chair__leg--one">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid chair__leg chair__leg--two">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid chair__leg chair__leg--three">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid chair__leg chair__leg--four">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid chair__leg chair__leg--five">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="cuboid chair__spine">
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+            <div class="cuboid__side"></div>
+          </div>
+          <div class="chair__top">
+            <div class="cuboid chair__seat">
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+            </div>
+            <div class="cuboid chair__wing chair__wing--left">
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+            </div>
+            <div class="cuboid chair__wing chair__wing--right">
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+            </div>
+            <div class="cuboid chair__back">
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+            </div>
+            <div class="cuboid chair__headrest">
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+            </div>
+            <div class="cuboid chair__armrest chair__armrest--vertical chair__armrest--vertical--left">
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+            </div>
+            <div class="cuboid chair__armrest chair__armrest--vertical chair__armrest--vertical--right">
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+            </div>
+            <div class="cuboid chair__armrest chair__armrest--horizontal chair__armrest--horizontal--left">
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+            </div>
+            <div class="cuboid chair__armrest chair__armrest--horizontal chair__armrest--horizontal--right">
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+              <div class="cuboid__side"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>

@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.DS_Store
+*.local
+screenshots/
+public/assets/travel/photos-src/
+public/assets/travel/gallery-wall-src/
