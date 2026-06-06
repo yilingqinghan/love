@@ -6,6 +6,7 @@ import {
   parallelAscentPanels,
 } from "../data/copy.js";
 import { useParallelAscent } from "../hooks/useParallelAscent.js";
+import { withBase } from "../utils/paths.js";
 
 const ParallelAscentScene = forwardRef(function ParallelAscentScene(_, ref) {
   const [svgMarkup, setSvgMarkup] = useState("");
@@ -18,7 +19,7 @@ const ParallelAscentScene = forwardRef(function ParallelAscentScene(_, ref) {
   useEffect(() => {
     let alive = true;
 
-    fetch("/parallel-ascent/index.html?v=parallel-ascent-1")
+    fetch(withBase("/parallel-ascent/index.html?v=parallel-ascent-1"))
       .then((response) => response.text())
       .then((html) => {
         if (!alive) return;

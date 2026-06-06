@@ -1,6 +1,7 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
 import { useConfession } from "../hooks/useConfession.js";
+import { withBase } from "../utils/paths.js";
 
 const BALLOON_LETTERS = ["I", "L", "O", "V", "E", "Y", "O", "U"];
 
@@ -141,7 +142,7 @@ const ConfessionScene = forwardRef(function ConfessionScene({ onAccept }, ref) {
             key={`tree-${treeRun}`}
             title="I love you tree"
             className={`confession-tree-frame ${treeDone ? "is-done" : ""}`}
-            src={`/confession-tree/index.html?v=confession-tree-1&run=${treeRun}`}
+            src={withBase(`/confession-tree/index.html?v=confession-tree-1&run=${treeRun}`)}
             loading="eager"
           ></iframe>
         )}
@@ -150,7 +151,7 @@ const ConfessionScene = forwardRef(function ConfessionScene({ onAccept }, ref) {
           <iframe
             title="sakura background"
             className="confession-sakura-frame"
-            src="/confession-sakura/index.html?v=confession-sakura-3"
+            src={withBase("/confession-sakura/index.html?v=confession-sakura-3")}
             loading="eager"
           ></iframe>
         )}
@@ -209,7 +210,7 @@ const ConfessionScene = forwardRef(function ConfessionScene({ onAccept }, ref) {
                 <iframe
                   title="heart rate"
                   className="confession-heart-frame"
-                  src="/confession-heart/index.html?v=confession-heart-1"
+                  src={withBase("/confession-heart/index.html?v=confession-heart-1")}
                   loading="eager"
                 ></iframe>
               </div>
