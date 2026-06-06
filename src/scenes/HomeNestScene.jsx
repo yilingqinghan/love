@@ -2,11 +2,12 @@ import { forwardRef } from "react";
 
 import { homeAfterglowLines, homeRoomCaptions } from "../data/copy.js";
 import { useHomeNest } from "../hooks/useHomeNest.js";
+import { withBase } from "../utils/paths.js";
 
 const HomeNestScene = forwardRef(function HomeNestScene(_, ref) {
   useHomeNest({ sectionRef: ref });
 
-  const livingWordsSrc = "/home-words/index.html?v=homewords-fullscreen-5";
+  const livingWordsSrc = withBase("/home-words/index.html?v=homewords-fullscreen-5");
   const roomVersion = "home-rooms-family-5";
 
   return (
@@ -47,7 +48,7 @@ const HomeNestScene = forwardRef(function HomeNestScene(_, ref) {
               <iframe
                 title={room.title}
                 className="home-room-embed"
-                src={`${room.src}?v=${roomVersion}`}
+                src={`${withBase(room.src)}?v=${roomVersion}`}
                 loading="eager"
                 allow="autoplay"
                 style={{

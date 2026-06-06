@@ -2,6 +2,7 @@ import { forwardRef, useRef } from "react";
 
 import { foodCardItems, foodFeastNote } from "../data/copy.js";
 import { useFoodFeast } from "../hooks/useFoodFeast.js";
+import { withBase } from "../utils/paths.js";
 
 const FoodFeastScene = forwardRef(function FoodFeastScene(_, ref) {
   const canvasRef = useRef(null);
@@ -16,7 +17,7 @@ const FoodFeastScene = forwardRef(function FoodFeastScene(_, ref) {
       <iframe
         title="restaurant menu"
         className="food-menu-frame"
-        src="/food-menu/index.html?v=foodmenu-fullscreen-1"
+        src={withBase("/food-menu/index.html?v=foodmenu-fullscreen-1")}
         loading="eager"
       ></iframe>
 

@@ -1518,7 +1518,7 @@ body {
 }
 
 .cuadro-l__front {
-  background-image: url("/assets/home-rooms/pure/cuadro-1.jpg");
+  background-image: url("../../assets/home-rooms/pure/cuadro-1.jpg");
   background-color: #D51E24;
   border: 1vw solid #D51E24;
 }
@@ -1537,7 +1537,7 @@ body {
   left: 20vw;
 }
 .cuadro-r__front {
-  background-image: url("/assets/home-rooms/pure/cuadro-1.jpg");
+  background-image: url("../../assets/home-rooms/pure/cuadro-1.jpg");
   background-color: #0F1110;
   border: 0.5vw solid #0F1110;
 }

@@ -1,6 +1,6 @@
-import * as THREE from "/assets/vendor/three/three.module.js";
-import { OrbitControls } from "/assets/vendor/three/OrbitControls.js";
-import { GLTFLoader } from "/assets/vendor/three/GLTFLoader.js";
+import * as THREE from "../../assets/vendor/three/three.module.js";
+import { OrbitControls } from "../../assets/vendor/three/OrbitControls.js";
+import { GLTFLoader } from "../../assets/vendor/three/GLTFLoader.js";
 
 const canvas = document.querySelector('.webgl')
 const scene = new THREE.Scene()
@@ -41,7 +41,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.setClearColor(0x000000, 0)
 
 // Materials
-const bakedTexture = textureLoader.load('/assets/home-rooms/three/baked.jpg')
+const bakedTexture = textureLoader.load('../../assets/home-rooms/three/baked.jpg')
 bakedTexture.flipY = false
 bakedTexture.colorSpace = THREE.SRGBColorSpace
 
@@ -52,7 +52,7 @@ const bakedMaterial = new THREE.MeshBasicMaterial({
 
 //Loader
 const loader = new GLTFLoader()
-loader.load('/assets/home-rooms/three/model.glb',
+loader.load('../../assets/home-rooms/three/model.glb',
     (gltf) => {
         const model = gltf.scene
         model.traverse( child => child.material = bakedMaterial )

@@ -1,4 +1,5 @@
 import { forwardRef } from "react";
+import { withBase } from "../utils/paths.js";
 
 const HeroScene = forwardRef(function HeroScene(_, ref) {
   return (
@@ -7,7 +8,7 @@ const HeroScene = forwardRef(function HeroScene(_, ref) {
         <iframe
           title="star trek hero background"
           className="hero-star-trek-frame"
-          src="/star-trek/index.html?v=hero-1"
+          src={withBase("/star-trek/index.html?v=hero-1")}
           loading="eager"
         ></iframe>
       </div>
