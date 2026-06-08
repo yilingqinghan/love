@@ -52,19 +52,6 @@ const ConfessionScene = forwardRef(function ConfessionScene({ onAccept }, ref) {
   const introStartedRef = useRef(false);
   const experienceCompleteRef = useRef(false);
 
-  useEffect(() => {
-    const fontId = "confession-balloon-font";
-    if (document.getElementById(fontId)) return undefined;
-
-    const link = document.createElement("link");
-    link.id = fontId;
-    link.rel = "stylesheet";
-    link.href = "https://fonts.googleapis.com/css2?family=Wendy+One&display=swap";
-    document.head.appendChild(link);
-
-    return undefined;
-  }, []);
-
   const activateScene = useCallback(() => {
     if (experienceCompleteRef.current) {
       setTreeVisible(false);
@@ -220,8 +207,18 @@ const ConfessionScene = forwardRef(function ConfessionScene({ onAccept }, ref) {
                   <p key={`${index}-${paragraph}`}>{paragraph}</p>
                 ))}
                 <p className="confession-postscript">P.S. 我真的很想认真地喜欢你，也想认真地走近你。</p>
+                <p className="confession-question">小一，你愿意和我在一起吗？</p>
                 <p className="confession-dates">2001.03.28 → 2002.04.12</p>
-                <p className="confession-signature">YQH</p>
+                <div className="confession-signoff">
+                  <p className="confession-signature">逸翎清晗</p>
+                  <img
+                    className="confession-seal-mark"
+                    src={withBase("/assets/confession/seal.png")}
+                    alt=""
+                    aria-hidden="true"
+                    loading="eager"
+                  />
+                </div>
               </div>
 
               <div className="confession-paper-actions">

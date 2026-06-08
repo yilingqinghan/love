@@ -892,14 +892,15 @@ body::-webkit-scrollbar {
 .pair-narrative-viewport {
   position: relative;
   width: 100%;
-  height: clamp(380px, 59vh, 820px);
+  height: clamp(420px, 64vh, 620px);
   overflow: hidden;
-  mask-image: linear-gradient(180deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0, #000 88%, transparent 100%);
 }
 
 .pair-narrative-track {
   display: grid;
   gap: 12px;
+  padding-top: 12px;
   padding-bottom: 180px;
   will-change: transform;
 }
@@ -4600,6 +4601,10 @@ body::-webkit-scrollbar {
     width: calc(100vw - 36px);
   }
 
+  .pair-narrative-viewport {
+    height: min(58vh, 420px);
+  }
+
   .pair-narrative p {
     font-size: 0.92rem;
     line-height: 1.65;
@@ -8272,14 +8277,37 @@ body::-webkit-scrollbar {
   text-transform: uppercase;
 }
 
-.confession-signature {
-  justify-self: end;
+.confession-question {
   margin-top: 10px;
+  font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+  font-size: clamp(1.34rem, 1.8vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #b43f65;
+}
+
+.confession-signoff {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.confession-signature {
+  margin: 0;
   font-family: "Cormorant Garamond", "Noto Serif SC", serif;
   font-size: clamp(2.1rem, 2.5vw, 2.9rem);
   font-style: italic;
   letter-spacing: 0.04em;
   color: #b34a6c;
+}
+
+.confession-seal-mark {
+  width: clamp(84px, 7.4vw, 110px);
+  height: auto;
+  transform: translate(-4px, 10px) rotate(4deg);
+  filter: drop-shadow(0 12px 18px rgba(126, 39, 60, 0.22));
 }
 
 .confession-paper-actions {

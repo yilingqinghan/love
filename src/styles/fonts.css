@@ -1,0 +1,20 @@
+/* Self-hosted font bundles keep GitHub Pages from depending on external CDNs. */
+@import "@fontsource/cormorant-garamond/500.css";
+@import "@fontsource/cormorant-garamond/600.css";
+@import "@fontsource/cormorant-garamond/700.css";
+@import "@fontsource/fira-code/400.css";
+@import "@fontsource/fira-code/500.css";
+@import "@fontsource/fira-code/600.css";
+@import "@fontsource/long-cang/latin.css";
+@import "@fontsource/long-cang/chinese-simplified.css";
+@import "@fontsource/ma-shan-zheng/latin.css";
+@import "@fontsource/ma-shan-zheng/chinese-simplified.css";
+@import "@fontsource/noto-serif-sc/latin-400.css";
+@import "@fontsource/noto-serif-sc/latin-500.css";
+@import "@fontsource/noto-serif-sc/latin-600.css";
+@import "@fontsource/noto-serif-sc/latin-700.css";
+@import "@fontsource/noto-serif-sc/chinese-simplified-400.css";
+@import "@fontsource/noto-serif-sc/chinese-simplified-500.css";
+@import "@fontsource/noto-serif-sc/chinese-simplified-600.css";
+@import "@fontsource/noto-serif-sc/chinese-simplified-700.css";
+@import "@fontsource/wendy-one/400.css";
