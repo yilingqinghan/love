@@ -9,6 +9,13 @@
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {
+    "@fontsource/cormorant-garamond": "^5.2.11",
+    "@fontsource/fira-code": "^5.2.7",
+    "@fontsource/long-cang": "^5.2.8",
+    "@fontsource/ma-shan-zheng": "^5.2.9",
+    "@fontsource/mountains-of-christmas": "^5.2.8",
+    "@fontsource/noto-serif-sc": "^5.2.8",
+    "@fontsource/wendy-one": "^5.2.8",
     "aframe": "^1.7.1",
     "gsap": "^3.12.5",
     "react": "^18.3.1",
