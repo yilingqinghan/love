@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 
 import AnniversaryScene from "./scenes/AnniversaryScene.jsx";
+import BackgroundMusicPlayer from "./scenes/BackgroundMusicPlayer.jsx";
 import BootSequence from "./scenes/BootSequence.jsx";
 import ConfessionScene from "./scenes/ConfessionScene.jsx";
 import FoodFeastScene from "./scenes/FoodFeastScene.jsx";
@@ -104,6 +105,7 @@ export default function App() {
         "--paper-texture": `url("${withBase("/assets/paper-texture.jpg")}")`,
       }}
     >
+      <BackgroundMusicPlayer />
       <HeroScene ref={heroRef} />
       <ProbabilityScene
         ref={probabilityRef}

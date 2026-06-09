@@ -473,7 +473,7 @@ export function useProbabilityField({ sectionRef, canvasRef }) {
       autoAlpha: 0,
       y: 18,
     });
-    gsap.set(q(".narrative-line, .pair-thread"), {
+    gsap.set(q(".pair-thread"), {
       autoAlpha: 0,
       y: 18,
     });
@@ -530,23 +530,22 @@ export function useProbabilityField({ sectionRef, canvasRef }) {
       .to(q(".mbti-ring"), { rotate: 360, duration: 0.48, ease: "none" }, 0.18)
       .to(q(".zodiac-orbit-token"), { autoAlpha: 1, scale: 1, stagger: 0.022, duration: 0.26 }, 0.36)
       .to(q(".zodiac-ring"), { rotate: -360, duration: 0.3, ease: "none" }, 0.36)
-      .to(q(".pair-narrative"), { autoAlpha: 1, y: 0, duration: 0.08, ease: "power3.out" }, 0.42)
-      .to(q(".narrative-line"), { autoAlpha: 1, y: 0, duration: 0.1, stagger: 0.055, ease: "power3.out" }, 0.45)
-      .to(q(".pair-thread"), { autoAlpha: 1, y: 0, duration: 0.1, ease: "power3.out" }, 0.74)
+      .to(q(".pair-narrative"), { autoAlpha: 1, y: 0, duration: 0.12, ease: "power3.out" }, 0.38)
+      .to(q(".pair-thread"), { autoAlpha: 1, y: 0, duration: 0.12, ease: "power3.out" }, 0.8)
       .to(q(".pair-person"), { x: 0, duration: 0.12, stagger: 0.035, ease: "power3.out" }, 0.76)
       .to(q(".orbit-token:not(.selected)"), { autoAlpha: 0.08, scale: 0.72, duration: 0.12 }, 0.8)
       .to(q(".orbit-token.selected"), { autoAlpha: 1, scale: 1.34, duration: 0.14, ease: "power3.out" }, 0.82)
       .to(q(".selector-ring"), { scale: 0.76, duration: 0.14, ease: "power3.out" }, 0.83)
-      .to(q(".pair-thread"), { autoAlpha: 0, y: -12, duration: 0.08, ease: "power2.out" }, 0.84)
-      .to(q(".pair-narrative"), { autoAlpha: 1, y: -6, duration: 0.12, ease: "power2.out" }, 0.86)
-      .to(q(".selection-core"), { autoAlpha: 1, y: 0, duration: 0.14, ease: "power3.out" }, 0.89)
+      .to(q(".pair-thread"), { autoAlpha: 0, y: -12, duration: 0.08, ease: "power2.out" }, 0.9)
+      .to(q(".pair-narrative"), { autoAlpha: 1, y: -6, duration: 0.12, ease: "power2.out" }, 0.905)
+      .to(q(".selection-core"), { autoAlpha: 1, y: 0, duration: 0.14, ease: "power3.out" }, 0.93)
       .to(q(".orbit-system"), { autoAlpha: 0.92, filter: "blur(0px)", duration: 0.1 }, 0.9)
       .to(q(".probability-heading"), { autoAlpha: 0.06, y: -36, duration: 0.1 }, 0.9)
-      .to(q(".probability-tile:not(.featured)"), { autoAlpha: 1, y: 0, stagger: 0.04, duration: 0.1 }, 0.92)
-      .to(q(".selection-core"), { autoAlpha: 0, y: -18, duration: 0.1, ease: "power2.inOut" }, 0.955)
-      .to(q(".probability-tile:not(.featured)"), { autoAlpha: 0, y: -14, stagger: 0.026, duration: 0.08 }, 0.972)
-      .to(q(".orbit-token.selected"), { autoAlpha: 1, scale: 1.08, duration: 0.08 }, 0.975)
-      .to(q(".probability-tile.featured"), { autoAlpha: 1, y: 0, scale: 1.04, duration: 0.14, ease: "power3.out" }, 0.986)
+      .to(q(".probability-tile:not(.featured)"), { autoAlpha: 1, y: 0, stagger: 0.04, duration: 0.1 }, 0.955)
+      .to(q(".selection-core"), { autoAlpha: 0, y: -18, duration: 0.1, ease: "power2.inOut" }, 0.982)
+      .to(q(".probability-tile:not(.featured)"), { autoAlpha: 0, y: -14, stagger: 0.026, duration: 0.08 }, 0.992)
+      .to(q(".orbit-token.selected"), { autoAlpha: 1, scale: 1.08, duration: 0.08 }, 0.994)
+      .to(q(".probability-tile.featured"), { autoAlpha: 1, y: 0, scale: 1.04, duration: 0.14, ease: "power3.out" }, 0.998)
       .to(camera.position, { z: 18, x: 1.8, y: 0.8, duration: 0.22, ease: "none" }, 0.88);
 
     let frame = 0;
