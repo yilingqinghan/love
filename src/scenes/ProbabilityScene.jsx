@@ -1,11 +1,7 @@
-import { forwardRef, useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { forwardRef, useRef } from "react";
 
 import { useProbabilityField } from "../hooks/useProbabilityField.js";
 import { withBase } from "../utils/paths.js";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const typeGroups = {
   INTJ: "analyst",
@@ -78,49 +74,12 @@ const probabilityNarrative = [
   "找到彼此。",
 ];
 
-const PROBABILITY_SCROLL_DISTANCE = 13200;
-const PROBABILITY_TEXT_START_PROGRESS = 0.5;
-const PROBABILITY_TEXT_END_PROGRESS = 0.94;
-
-function clamp01(value) {
-  return Math.min(1, Math.max(0, value));
-}
-
 const ProbabilityScene = forwardRef(function ProbabilityScene(
   { typeCodes, zodiacSigns, probabilityRows },
   ref
 ) {
   const canvasRef = useRef(null);
   useProbabilityField({ sectionRef: ref, canvasRef });
-
-  useEffect(() => {
-    const section = ref?.current;
-    if (!section) return undefined;
-
-    const viewport = section.querySelector(".pair-narrative-viewport");
-    const track = section.querySelector(".pair-narrative-track");
-    if (!viewport || !track) return undefined;
-
-    gsap.set(track, { y: 0 });
-
-    const trigger = ScrollTrigger.create({
-      trigger: section,
-      start: "top top",
-      end: `+=${PROBABILITY_SCROLL_DISTANCE}`,
-      invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        const readableRange = PROBABILITY_TEXT_END_PROGRESS - PROBABILITY_TEXT_START_PROGRESS;
-        const textProgress = clamp01((self.progress - PROBABILITY_TEXT_START_PROGRESS) / readableRange);
-        const maxOffset = Math.max(0, track.scrollHeight - viewport.clientHeight) * 0.98;
-
-        gsap.set(track, { y: -maxOffset * textProgress });
-      },
-    });
-
-    return () => {
-      trigger.kill();
-    };
-  }, [ref]);
 
   return (
     <section ref={ref} className="probability-section" aria-label="概率筛选">
