@@ -3,10 +3,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { withBase } from "../utils/paths.js";
 
 const SONG_AUTOPLAY_DELAY_MS = 5000;
-const CONFESSION_FINALE_LEAD_SECONDS = 14;
+const CONFESSION_FINALE_LEAD_SECONDS = 52;
 const FALLBACK_DURATION_SECONDS = 288.301361;
-const MIN_SCROLL_SPEED = 42;
-const MAX_SCROLL_SPEED = 190;
+const MIN_SCROLL_SPEED = 88;
+const MAX_SCROLL_SPEED = 360;
+const SCROLL_PULSE_INTERVAL_MS = 120;
 const MANUAL_SCROLL_PAUSE_MS = 1800;
 
 function clamp(value, min, max) {
@@ -63,6 +64,7 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
   const audioRef = useRef(null);
   const frameRef = useRef(0);
   const lastFrameTimeRef = useRef(0);
+  const lastPulseTimeRef = useRef(0);
   const manualPauseUntilRef = useRef(0);
   const resumeHandlerRef = useRef(null);
   const autoStartedRef = useRef(false);
@@ -131,8 +133,6 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
       const audio = audioRef.current;
 
       if (autoScrollEnabledRef.current && !document.hidden) {
-        const lastFrameTime = lastFrameTimeRef.current || time;
-        const delta = Math.min(64, time - lastFrameTime);
         const targetY = getTargetScrollY(finalSceneRef);
         const distanceLeft = Math.max(0, targetY - window.scrollY);
         const duration = Number.isFinite(audio?.duration) && audio.duration > 0
@@ -140,27 +140,38 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
           : FALLBACK_DURATION_SECONDS;
         const currentAudioTime = audio?.currentTime || 0;
         const secondsLeft = Math.max(duration - CONFESSION_FINALE_LEAD_SECONDS - currentAudioTime, 18);
+        const lastPulseTime = lastPulseTimeRef.current || time;
+        const pulseDelta = time - lastPulseTime;
+        const finalSceneTop = finalSceneRef?.current?.getBoundingClientRect?.().top ?? Infinity;
+        const isTemporarilyPaused =
+          document.body.classList.contains("boot-lock") || Date.now() < manualPauseUntilRef.current;
+
+        if (isTemporarilyPaused) {
+          lastPulseTimeRef.current = time;
+        }
 
         if (
-          !document.body.classList.contains("boot-lock") &&
-          Date.now() >= manualPauseUntilRef.current &&
-          distanceLeft > 2
+          !isTemporarilyPaused &&
+          distanceLeft > 2 &&
+          pulseDelta >= SCROLL_PULSE_INTERVAL_MS
         ) {
           const speed = clamp(distanceLeft / secondsLeft, MIN_SCROLL_SPEED, MAX_SCROLL_SPEED);
           window.scrollBy({
-            top: (speed * delta) / 1000,
+            top: (speed * pulseDelta) / 1000,
             left: 0,
             behavior: "auto",
           });
+          lastPulseTimeRef.current = time;
         }
 
-        if (distanceLeft <= 2) {
+        if (finalSceneTop <= 2 && distanceLeft <= 2) {
           autoScrollEnabledRef.current = false;
         }
 
         lastFrameTimeRef.current = time;
       } else {
         lastFrameTimeRef.current = time;
+        lastPulseTimeRef.current = time;
       }
 
       frameRef.current = window.requestAnimationFrame(tick);
@@ -215,6 +226,7 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
       autoStartedRef.current = true;
       autoScrollEnabledRef.current = true;
       lastFrameTimeRef.current = performance.now();
+      lastPulseTimeRef.current = performance.now();
 
       audio
         .play()
@@ -293,6 +305,7 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
       autoStartedRef.current = true;
       autoScrollEnabledRef.current = true;
       lastFrameTimeRef.current = performance.now();
+      lastPulseTimeRef.current = performance.now();
       audio.play().catch(() => {});
     } else {
       autoScrollEnabledRef.current = false;
