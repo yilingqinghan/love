@@ -79,6 +79,8 @@ const probabilityNarrative = [
 ];
 
 const PROBABILITY_SCROLL_DISTANCE = 13200;
+const PROBABILITY_TEXT_START = 5000;
+const PROBABILITY_TEXT_DISTANCE = 8200;
 
 const ProbabilityScene = forwardRef(function ProbabilityScene(
   { typeCodes, zodiacSigns, probabilityRows },
@@ -96,13 +98,13 @@ const ProbabilityScene = forwardRef(function ProbabilityScene(
     if (!viewport || !track) return undefined;
 
     const tween = gsap.to(track, {
-      y: () => -Math.max(0, track.scrollHeight - viewport.clientHeight) * 1.02,
+      y: () => -Math.max(0, track.scrollHeight - viewport.clientHeight) * 0.96,
       ease: "none",
       scrollTrigger: {
         trigger: section,
-        start: "top top",
-        end: `+=${PROBABILITY_SCROLL_DISTANCE}`,
-        scrub: 0.9,
+        start: () => `top+=${PROBABILITY_TEXT_START} top`,
+        end: () => `+=${PROBABILITY_TEXT_DISTANCE}`,
+        scrub: 1.15,
         invalidateOnRefresh: true,
       },
     });

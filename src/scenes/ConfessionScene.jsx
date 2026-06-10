@@ -52,6 +52,11 @@ const ConfessionScene = forwardRef(function ConfessionScene({ onAccept }, ref) {
   const introStartedRef = useRef(false);
   const experienceCompleteRef = useRef(false);
 
+  const completeTreeIntro = useCallback(() => {
+    experienceCompleteRef.current = true;
+    setTreeDone(true);
+  }, []);
+
   const activateScene = useCallback(() => {
     if (experienceCompleteRef.current) {
       setTreeVisible(false);
@@ -80,13 +85,22 @@ const ConfessionScene = forwardRef(function ConfessionScene({ onAccept }, ref) {
     const handleMessage = (event) => {
       if (event.data?.type !== "confession-tree-complete") return;
       if (treeFrameRef.current?.contentWindow && event.source !== treeFrameRef.current.contentWindow) return;
-      experienceCompleteRef.current = true;
-      setTreeDone(true);
+      completeTreeIntro();
     };
 
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
-  }, []);
+  }, [completeTreeIntro]);
+
+  useEffect(() => {
+    if (!treeVisible || treeDone) return undefined;
+
+    const timer = window.setTimeout(() => {
+      completeTreeIntro();
+    }, 18000);
+
+    return () => window.clearTimeout(timer);
+  }, [completeTreeIntro, treeDone, treeVisible]);
 
   useEffect(() => {
     if (!treeDone) {
@@ -120,6 +134,9 @@ const ConfessionScene = forwardRef(function ConfessionScene({ onAccept }, ref) {
     onAccept?.();
   }, [onAccept]);
 
+  const showSakura = treeDone && envelopeReady && !treeVisible;
+  const showHeart = letterOpen;
+
   return (
     <section ref={ref} className="confession-section" aria-label="表白页面">
       <div className="confession-stage">
@@ -131,15 +148,16 @@ const ConfessionScene = forwardRef(function ConfessionScene({ onAccept }, ref) {
             className={`confession-tree-frame ${treeDone ? "is-done" : ""}`}
             src={withBase(`/confession-tree/index.html?v=confession-tree-1&run=${treeRun}`)}
             loading="eager"
+            onError={completeTreeIntro}
           ></iframe>
         )}
 
-        {treeDone && (
+        {showSakura && (
           <iframe
             title="sakura background"
             className="confession-sakura-frame"
             src={withBase("/confession-sakura/index.html?v=confession-sakura-3")}
-            loading="eager"
+            loading="lazy"
           ></iframe>
         )}
 
@@ -193,14 +211,16 @@ const ConfessionScene = forwardRef(function ConfessionScene({ onAccept }, ref) {
                 </div>
               </div>
 
-              <div className="confession-heart-wrap" aria-hidden="true">
-                <iframe
-                  title="heart rate"
-                  className="confession-heart-frame"
-                  src={withBase("/confession-heart/index.html?v=confession-heart-1")}
-                  loading="eager"
-                ></iframe>
-              </div>
+              {showHeart && (
+                <div className="confession-heart-wrap" aria-hidden="true">
+                  <iframe
+                    title="heart rate"
+                    className="confession-heart-frame"
+                    src={withBase("/confession-heart/index.html?v=confession-heart-1")}
+                    loading="lazy"
+                  ></iframe>
+                </div>
+              )}
 
               <div className="confession-paper-body">
                 {LETTER_PARAGRAPHS.map((paragraph, index) => (

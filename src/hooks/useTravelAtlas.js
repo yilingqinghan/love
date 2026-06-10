@@ -69,7 +69,7 @@ export function useTravelAtlas({ sectionRef, activePhoto, capturedCount, flashAc
       });
 
       tl
-        .to(q(".travel-line"), { autoAlpha: 1, y: 0, stagger: 0.08, duration: 0.18, ease: "power3.out" }, 0.08)
+        .to(q(".travel-line"), { autoAlpha: 1, y: 0, stagger: 0.1, duration: 0.22, ease: "power3.out" }, 0.08)
         .to(
           linesTrack,
           {
@@ -77,10 +77,10 @@ export function useTravelAtlas({ sectionRef, activePhoto, capturedCount, flashAc
               if (!linesViewport || !linesTrack) return 0;
               return -Math.max(0, linesTrack.scrollHeight - linesViewport.clientHeight);
             },
-            duration: 0.62,
+            duration: 1.14,
             ease: "none",
           },
-          0.1
+          0.32
         )
         .to(q(".travel-world-shell"), { scale: 1.02, duration: 0.25, ease: "power3.out" }, 0.13)
         .to(q(".travel-ticket-panel"), { autoAlpha: 1, y: 0, duration: 0.28, ease: "power3.out" }, 0.22)

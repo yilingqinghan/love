@@ -9,6 +9,14 @@ const MIN_SCROLL_SPEED = 88;
 const MAX_SCROLL_SPEED = 360;
 const SCROLL_PULSE_INTERVAL_MS = 120;
 const MANUAL_SCROLL_PAUSE_MS = 1800;
+const SECTION_SCROLL_FACTORS = [
+  [".probability-section", 0.72],
+  [".sky-route-section", 0.84],
+  [".ocean-echo-section", 0.82],
+  [".travel-atlas-section", 0.7],
+  [".home-nest-section", 0.84],
+  [".parallel-ascent-section", 0.9],
+];
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
@@ -31,6 +39,20 @@ function getTargetScrollY(finalSceneRef) {
   }
 
   return clamp(scene.getBoundingClientRect().top + window.scrollY, 0, maxScroll);
+}
+
+function getActiveSectionScrollFactor() {
+  const probeX = window.innerWidth * 0.5;
+  const probeY = window.innerHeight * 0.5;
+  const element = document.elementFromPoint(probeX, probeY);
+  const section = element?.closest?.("section");
+
+  if (!section) {
+    return 1;
+  }
+
+  const match = SECTION_SCROLL_FACTORS.find(([selector]) => section.matches(selector));
+  return match?.[1] ?? 1;
 }
 
 function parseLrc(rawText) {
@@ -155,7 +177,8 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
           distanceLeft > 2 &&
           pulseDelta >= SCROLL_PULSE_INTERVAL_MS
         ) {
-          const speed = clamp(distanceLeft / secondsLeft, MIN_SCROLL_SPEED, MAX_SCROLL_SPEED);
+          const baseSpeed = clamp(distanceLeft / secondsLeft, MIN_SCROLL_SPEED, MAX_SCROLL_SPEED);
+          const speed = baseSpeed * getActiveSectionScrollFactor();
           window.scrollBy({
             top: (speed * pulseDelta) / 1000,
             left: 0,
