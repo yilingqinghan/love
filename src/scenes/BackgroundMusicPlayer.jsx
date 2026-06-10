@@ -144,6 +144,13 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
           document.body.scrollTop = nextY;
         },
       });
+
+      const playbackProgress = Math.min((audio.currentTime || 0) / plan.travelWindow, 1);
+      autoScrollTweenRef.current.progress(playbackProgress);
+
+      if (autoStartedRef.current && !audio.paused && playbackProgress < 1) {
+        autoScrollTweenRef.current.play();
+      }
     };
 
     const updateScrollPlan = () => {
@@ -235,6 +242,7 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
                 audio.muted = false;
                 setIsMuted(false);
 
+                autoScrollTweenRef.current?.play();
                 audio.play().catch(() => {});
 
                 if (resumeHandlerRef.current) {
@@ -287,6 +295,7 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
     }
 
     if (audio.paused) {
+      autoStartedRef.current = true;
       autoScrollTweenRef.current?.resume();
       audio.play().catch(() => {});
     } else {
