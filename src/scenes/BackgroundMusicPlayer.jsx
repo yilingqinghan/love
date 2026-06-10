@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import gsap from "gsap";
 
 import { withBase } from "../utils/paths.js";
 
@@ -39,13 +40,15 @@ function parseLrc(rawText) {
 export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
   const audioRef = useRef(null);
   const resumeHandlerRef = useRef(null);
-  const animationFrameRef = useRef(0);
+  const autoScrollTweenRef = useRef(null);
+  const autoStartTimerRef = useRef(0);
   const autoScrollPlanRef = useRef({
     isEnabled: false,
     startY: 0,
     targetY: 0,
     travelWindow: 0,
   });
+  const autoStartedRef = useRef(false);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -113,82 +116,56 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
       return undefined;
     }
 
-    const tryPlay = () => {
-      audio
-        .play()
-        .then(() => {
-          setIsPlaying(true);
-          if (resumeHandlerRef.current) {
-            window.removeEventListener("pointerdown", resumeHandlerRef.current);
-            window.removeEventListener("keydown", resumeHandlerRef.current);
-            resumeHandlerRef.current = null;
-          }
-        })
-        .catch(() => {
-          if (resumeHandlerRef.current) {
-            return;
-          }
-
-          const resumeOnFirstGesture = () => {
-            audio
-              .play()
-              .then(() => {
-                setIsPlaying(true);
-              })
-              .catch(() => {})
-              .finally(() => {
-                if (resumeHandlerRef.current) {
-                  window.removeEventListener("pointerdown", resumeHandlerRef.current);
-                  window.removeEventListener("keydown", resumeHandlerRef.current);
-                  resumeHandlerRef.current = null;
-                }
-              });
-          };
-
-          resumeHandlerRef.current = resumeOnFirstGesture;
-          window.addEventListener("pointerdown", resumeOnFirstGesture, { once: true });
-          window.addEventListener("keydown", resumeOnFirstGesture, { once: true });
-        });
+    const killTween = () => {
+      autoScrollTweenRef.current?.kill();
+      autoScrollTweenRef.current = null;
     };
 
-    const timer = window.setTimeout(tryPlay, 5000);
+    const rebuildTween = () => {
+      killTween();
 
-    return () => {
-      window.clearTimeout(timer);
-      if (resumeHandlerRef.current) {
-        window.removeEventListener("pointerdown", resumeHandlerRef.current);
-        window.removeEventListener("keydown", resumeHandlerRef.current);
-        resumeHandlerRef.current = null;
+      const plan = autoScrollPlanRef.current;
+
+      if (!plan.isEnabled || plan.targetY <= plan.startY + 4) {
+        return;
       }
+
+      const progressState = { progress: 0 };
+
+      autoScrollTweenRef.current = gsap.to(progressState, {
+        progress: 1,
+        duration: plan.travelWindow,
+        ease: "none",
+        paused: true,
+        onUpdate: () => {
+          const eased = easeScroll(progressState.progress);
+          const nextY = plan.startY + (plan.targetY - plan.startY) * eased;
+          document.documentElement.scrollTop = nextY;
+          document.body.scrollTop = nextY;
+        },
+      });
     };
-  }, []);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-
-    if (!audio) {
-      return undefined;
-    }
 
     const updateScrollPlan = () => {
       const scene = finalSceneRef?.current;
       const duration = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 288.301361;
+      const maxScroll = Math.max(
+        document.documentElement.scrollHeight,
+        document.body.scrollHeight
+      ) - window.innerHeight;
 
       if (!scene) {
         autoScrollPlanRef.current = {
           isEnabled: false,
           startY: window.scrollY,
-          targetY: window.scrollY,
+          targetY: Math.max(0, maxScroll),
           travelWindow: Math.max(duration - CONFESSION_FINALE_LEAD_SECONDS, 1),
         };
+        rebuildTween();
         return;
       }
 
       const sceneTop = scene.getBoundingClientRect().top + window.scrollY;
-      const maxScroll = Math.max(
-        document.documentElement.scrollHeight,
-        document.body.scrollHeight
-      ) - window.innerHeight;
 
       autoScrollPlanRef.current = {
         isEnabled: true,
@@ -196,6 +173,8 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
         targetY: Math.max(0, Math.min(sceneTop, maxScroll)),
         travelWindow: Math.max(duration - CONFESSION_FINALE_LEAD_SECONDS, 1),
       };
+
+      rebuildTween();
     };
 
     const handleLoadedMetadata = () => {
@@ -208,6 +187,7 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
     window.addEventListener("resize", updateScrollPlan);
 
     return () => {
+      killTween();
       audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
       audio.removeEventListener("play", handleLoadedMetadata);
       window.removeEventListener("resize", updateScrollPlan);
@@ -221,23 +201,67 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
       return undefined;
     }
 
-    const tickAutoScroll = () => {
-      const plan = autoScrollPlanRef.current;
-
-      if (plan.isEnabled && !audio.paused) {
-        const progress = Math.min((audio.currentTime || 0) / plan.travelWindow, 1);
-        const eased = easeScroll(progress);
-        const nextY = plan.startY + (plan.targetY - plan.startY) * eased;
-        window.scrollTo({ top: nextY, behavior: "auto" });
+    const startExperience = () => {
+      if (autoStartedRef.current) {
+        return;
       }
 
-      animationFrameRef.current = window.requestAnimationFrame(tickAutoScroll);
+      autoStartedRef.current = true;
+      autoScrollTweenRef.current?.play(0);
+
+      audio
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch(() => {
+          // 现代浏览器经常拦截带声音的自动播放，这里退一步：
+          // 先静音开播，保证滚动和歌词不停；用户第一次触碰页面时再恢复声音。
+          audio.muted = true;
+          setIsMuted(true);
+
+          audio
+            .play()
+            .then(() => {
+              setIsPlaying(true);
+            })
+            .catch(() => {})
+            .finally(() => {
+              if (resumeHandlerRef.current) {
+                return;
+              }
+
+              const resumeOnFirstGesture = () => {
+                audio.muted = false;
+                setIsMuted(false);
+
+                audio.play().catch(() => {});
+
+                if (resumeHandlerRef.current) {
+                  window.removeEventListener("pointerdown", resumeHandlerRef.current);
+                  window.removeEventListener("keydown", resumeHandlerRef.current);
+                  resumeHandlerRef.current = null;
+                }
+              };
+
+              resumeHandlerRef.current = resumeOnFirstGesture;
+              window.addEventListener("pointerdown", resumeOnFirstGesture, { once: true });
+              window.addEventListener("keydown", resumeOnFirstGesture, { once: true });
+            });
+        });
     };
 
-    animationFrameRef.current = window.requestAnimationFrame(tickAutoScroll);
+    autoStartTimerRef.current = window.setTimeout(startExperience, SONG_AUTOPLAY_DELAY_MS);
 
     return () => {
-      window.cancelAnimationFrame(animationFrameRef.current);
+      window.clearTimeout(autoStartTimerRef.current);
+      autoScrollTweenRef.current?.pause();
+
+      if (resumeHandlerRef.current) {
+        window.removeEventListener("pointerdown", resumeHandlerRef.current);
+        window.removeEventListener("keydown", resumeHandlerRef.current);
+        resumeHandlerRef.current = null;
+      }
     };
   }, []);
 
@@ -263,11 +287,10 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
     }
 
     if (audio.paused) {
-      if (!autoScrollPlanRef.current.isEnabled) {
-        autoScrollPlanRef.current.startY = window.scrollY;
-      }
+      autoScrollTweenRef.current?.resume();
       audio.play().catch(() => {});
     } else {
+      autoScrollTweenRef.current?.pause();
       audio.pause();
     }
   };
