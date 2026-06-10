@@ -530,7 +530,7 @@ export function useProbabilityField({ sectionRef, canvasRef }) {
       .to(q(".mbti-ring"), { rotate: 360, duration: 0.48, ease: "none" }, 0.18)
       .to(q(".zodiac-orbit-token"), { autoAlpha: 1, scale: 1, stagger: 0.022, duration: 0.26 }, 0.36)
       .to(q(".zodiac-ring"), { rotate: -360, duration: 0.3, ease: "none" }, 0.36)
-      .to(q(".pair-narrative"), { autoAlpha: 1, y: 0, duration: 0.12, ease: "power3.out" }, 0.38)
+      .to(q(".pair-narrative"), { autoAlpha: 1, y: 0, duration: 0.12, ease: "power3.out" }, 0.5)
       .to(q(".pair-thread"), { autoAlpha: 1, y: 0, duration: 0.12, ease: "power3.out" }, 0.8)
       .to(q(".pair-person"), { x: 0, duration: 0.12, stagger: 0.035, ease: "power3.out" }, 0.76)
       .to(q(".orbit-token:not(.selected)"), { autoAlpha: 0.08, scale: 0.72, duration: 0.12 }, 0.8)

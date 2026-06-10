@@ -79,8 +79,12 @@ const probabilityNarrative = [
 ];
 
 const PROBABILITY_SCROLL_DISTANCE = 13200;
-const PROBABILITY_TEXT_START = 5000;
-const PROBABILITY_TEXT_DISTANCE = 8200;
+const PROBABILITY_TEXT_START_PROGRESS = 0.5;
+const PROBABILITY_TEXT_END_PROGRESS = 0.94;
+
+function clamp01(value) {
+  return Math.min(1, Math.max(0, value));
+}
 
 const ProbabilityScene = forwardRef(function ProbabilityScene(
   { typeCodes, zodiacSigns, probabilityRows },
@@ -97,21 +101,24 @@ const ProbabilityScene = forwardRef(function ProbabilityScene(
     const track = section.querySelector(".pair-narrative-track");
     if (!viewport || !track) return undefined;
 
-    const tween = gsap.to(track, {
-      y: () => -Math.max(0, track.scrollHeight - viewport.clientHeight) * 0.96,
-      ease: "none",
-      scrollTrigger: {
-        trigger: section,
-        start: () => `top+=${PROBABILITY_TEXT_START} top`,
-        end: () => `+=${PROBABILITY_TEXT_DISTANCE}`,
-        scrub: 1.15,
-        invalidateOnRefresh: true,
+    gsap.set(track, { y: 0 });
+
+    const trigger = ScrollTrigger.create({
+      trigger: section,
+      start: "top top",
+      end: `+=${PROBABILITY_SCROLL_DISTANCE}`,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        const readableRange = PROBABILITY_TEXT_END_PROGRESS - PROBABILITY_TEXT_START_PROGRESS;
+        const textProgress = clamp01((self.progress - PROBABILITY_TEXT_START_PROGRESS) / readableRange);
+        const maxOffset = Math.max(0, track.scrollHeight - viewport.clientHeight) * 0.98;
+
+        gsap.set(track, { y: -maxOffset * textProgress });
       },
     });
 
     return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
+      trigger.kill();
     };
   }, [ref]);
 
