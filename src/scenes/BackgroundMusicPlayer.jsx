@@ -2,6 +2,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import { withBase } from "../utils/paths.js";
 
+const SONG_AUTOPLAY_DELAY_MS = 5000;
+const CONFESSION_FINALE_LEAD_SECONDS = 14;
+
+function easeScroll(progress) {
+  return progress * progress * (3 - 2 * progress);
+}
+
 function parseLrc(rawText) {
   return rawText
     .split(/\r?\n/)
@@ -29,9 +36,16 @@ function parseLrc(rawText) {
     .sort((a, b) => a.time - b.time);
 }
 
-export default function BackgroundMusicPlayer() {
+export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
   const audioRef = useRef(null);
   const resumeHandlerRef = useRef(null);
+  const animationFrameRef = useRef(0);
+  const autoScrollPlanRef = useRef({
+    isEnabled: false,
+    startY: 0,
+    targetY: 0,
+    travelWindow: 0,
+  });
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -149,6 +163,84 @@ export default function BackgroundMusicPlayer() {
     };
   }, []);
 
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    if (!audio) {
+      return undefined;
+    }
+
+    const updateScrollPlan = () => {
+      const scene = finalSceneRef?.current;
+      const duration = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 288.301361;
+
+      if (!scene) {
+        autoScrollPlanRef.current = {
+          isEnabled: false,
+          startY: window.scrollY,
+          targetY: window.scrollY,
+          travelWindow: Math.max(duration - CONFESSION_FINALE_LEAD_SECONDS, 1),
+        };
+        return;
+      }
+
+      const sceneTop = scene.getBoundingClientRect().top + window.scrollY;
+      const maxScroll = Math.max(
+        document.documentElement.scrollHeight,
+        document.body.scrollHeight
+      ) - window.innerHeight;
+
+      autoScrollPlanRef.current = {
+        isEnabled: true,
+        startY: window.scrollY,
+        targetY: Math.max(0, Math.min(sceneTop, maxScroll)),
+        travelWindow: Math.max(duration - CONFESSION_FINALE_LEAD_SECONDS, 1),
+      };
+    };
+
+    const handleLoadedMetadata = () => {
+      updateScrollPlan();
+    };
+
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("play", handleLoadedMetadata);
+    updateScrollPlan();
+    window.addEventListener("resize", updateScrollPlan);
+
+    return () => {
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("play", handleLoadedMetadata);
+      window.removeEventListener("resize", updateScrollPlan);
+    };
+  }, [finalSceneRef]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    if (!audio) {
+      return undefined;
+    }
+
+    const tickAutoScroll = () => {
+      const plan = autoScrollPlanRef.current;
+
+      if (plan.isEnabled && !audio.paused) {
+        const progress = Math.min((audio.currentTime || 0) / plan.travelWindow, 1);
+        const eased = easeScroll(progress);
+        const nextY = plan.startY + (plan.targetY - plan.startY) * eased;
+        window.scrollTo({ top: nextY, behavior: "auto" });
+      }
+
+      animationFrameRef.current = window.requestAnimationFrame(tickAutoScroll);
+    };
+
+    animationFrameRef.current = window.requestAnimationFrame(tickAutoScroll);
+
+    return () => {
+      window.cancelAnimationFrame(animationFrameRef.current);
+    };
+  }, []);
+
   const currentLyric = useMemo(() => {
     if (!lyrics.length) {
       return "";
@@ -171,6 +263,9 @@ export default function BackgroundMusicPlayer() {
     }
 
     if (audio.paused) {
+      if (!autoScrollPlanRef.current.isEnabled) {
+        autoScrollPlanRef.current.startY = window.scrollY;
+      }
       audio.play().catch(() => {});
     } else {
       audio.pause();
@@ -190,7 +285,7 @@ export default function BackgroundMusicPlayer() {
 
   return (
     <>
-      <audio ref={audioRef} className="bgm-audio" preload="auto" loop>
+      <audio ref={audioRef} className="bgm-audio" preload="auto">
         <source src={withBase("/assets/music/long-confession.mp3")} type="audio/mpeg" />
       </audio>
 

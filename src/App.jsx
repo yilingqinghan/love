@@ -105,7 +105,7 @@ export default function App() {
         "--paper-texture": `url("${withBase("/assets/paper-texture.jpg")}")`,
       }}
     >
-      <BackgroundMusicPlayer />
+      <BackgroundMusicPlayer finalSceneRef={confessionRef} />
       <HeroScene ref={heroRef} />
       <ProbabilityScene
         ref={probabilityRef}
