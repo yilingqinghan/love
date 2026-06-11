@@ -3,20 +3,20 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { withBase } from "../utils/paths.js";
 
 const SONG_AUTOPLAY_DELAY_MS = 5000;
-const CONFESSION_FINALE_LEAD_SECONDS = 52;
+const CONFESSION_FINALE_LEAD_SECONDS = 92;
 const FALLBACK_DURATION_SECONDS = 288.301361;
-const MIN_SCROLL_SPEED = 88;
-const MAX_SCROLL_SPEED = 360;
+const MIN_SCROLL_SPEED = 150;
+const MAX_SCROLL_SPEED = 1050;
 const MAX_SCROLL_FRAME_DELTA_MS = 42;
 const MANUAL_SCROLL_PAUSE_MS = 260;
 const TARGET_REFRESH_INTERVAL_MS = 420;
 const SECTION_SCROLL_FACTORS = [
-  [".probability-section", 0.72],
-  [".sky-route-section", 0.84],
-  [".ocean-echo-section", 0.82],
-  [".travel-atlas-section", 0.7],
-  [".home-nest-section", 0.84],
-  [".parallel-ascent-section", 0.9],
+  [".probability-section", 1.05],
+  [".sky-route-section", 1.03],
+  [".ocean-echo-section", 1],
+  [".travel-atlas-section", 1.12],
+  [".home-nest-section", 1.08],
+  [".parallel-ascent-section", 1.18],
 ];
 
 function clamp(value, min, max) {
@@ -181,7 +181,8 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
           ? audio.duration
           : FALLBACK_DURATION_SECONDS;
         const currentAudioTime = audio?.currentTime || 0;
-        const secondsLeft = Math.max(duration - CONFESSION_FINALE_LEAD_SECONDS - currentAudioTime, 18);
+        const scrollSyncDuration = Math.max(duration - CONFESSION_FINALE_LEAD_SECONDS, 120);
+        const secondsLeft = Math.max(scrollSyncDuration - currentAudioTime, 8);
         const lastFrameTime = lastFrameTimeRef.current || time;
         const frameDelta = Math.min(Math.max(time - lastFrameTime, 0), MAX_SCROLL_FRAME_DELTA_MS);
         const finalSceneTop = finalSceneRef?.current?.getBoundingClientRect?.().top ?? Infinity;
