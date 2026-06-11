@@ -4,6 +4,7 @@ import gsap from "gsap";
 import AnniversaryScene from "./scenes/AnniversaryScene.jsx";
 import BackgroundMusicPlayer from "./scenes/BackgroundMusicPlayer.jsx";
 import BootSequence from "./scenes/BootSequence.jsx";
+import ChapterProgress from "./scenes/ChapterProgress.jsx";
 import ConfessionScene from "./scenes/ConfessionScene.jsx";
 import FoodFeastScene from "./scenes/FoodFeastScene.jsx";
 import HeroScene from "./scenes/HeroScene.jsx";
@@ -50,6 +51,21 @@ export default function App() {
       bootRef,
       heroRef,
     }),
+    []
+  );
+
+  const chapters = useMemo(
+    () => [
+      { id: "hero", label: "Opening", ref: heroRef },
+      { id: "probability", label: "Coincidence", ref: probabilityRef },
+      { id: "sky", label: "Air Route", ref: skyRouteRef },
+      { id: "ocean", label: "Human Sea", ref: oceanEchoRef },
+      { id: "travel", label: "Travel Memory", ref: travelRef },
+      { id: "home", label: "Home", ref: homeRef },
+      { id: "food", label: "Taste Atlas", ref: foodRef },
+      { id: "ascent", label: "Parallel Ascent", ref: ascentRef },
+      { id: "confession", label: "Love Letter", ref: confessionRef },
+    ],
     []
   );
 
@@ -106,6 +122,7 @@ export default function App() {
       }}
     >
       <BackgroundMusicPlayer finalSceneRef={confessionRef} />
+      <ChapterProgress chapters={chapters} />
       <HeroScene ref={heroRef} />
       <ProbabilityScene
         ref={probabilityRef}

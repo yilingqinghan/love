@@ -8,6 +8,15 @@ const ANNIVERSARY_LINES = [
   "故事没有停在表白，它从今天开始认真生长。",
 ];
 
+const CERTIFICATE_ROWS = [
+  ["PAIR LOCK", "0.000513%"],
+  ["ORBIT", "ENFJ × Aries"],
+  ["ROUTE", "star / sky / sea / home"],
+  ["VALID", "long-term tenderness"],
+];
+
+const FUTURE_UNLOCKS = ["一起旅行", "一起做饭", "一起养猫", "一起回家"];
+
 function formatDateLabel(value) {
   if (!value) return "";
   const date = new Date(value);
@@ -107,6 +116,15 @@ const AnniversaryScene = forwardRef(function AnniversaryScene({ startDate }, ref
 
           <p className="anniversary-start">记于 {dateLabel || "今天"}</p>
 
+          <div className="anniversary-certificate-grid" aria-label="纪念证书信息">
+            {CERTIFICATE_ROWS.map(([label, value]) => (
+              <div key={label} className="anniversary-certificate-cell">
+                <span>{label}</span>
+                <strong>{value}</strong>
+              </div>
+            ))}
+          </div>
+
           <div className="anniversary-ribbons" aria-hidden="true">
             <span>ENFJ × Aries</span>
             <span>0.000513%</span>
@@ -117,6 +135,16 @@ const AnniversaryScene = forwardRef(function AnniversaryScene({ startDate }, ref
             {ANNIVERSARY_LINES.map((line) => (
               <p key={line}>{line}</p>
             ))}
+          </div>
+
+          <div className="anniversary-future-list" aria-label="未来待解锁">
+            {FUTURE_UNLOCKS.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
+          </div>
+
+          <div className="anniversary-seal" aria-hidden="true">
+            <span>YES</span>
           </div>
 
           <div className="anniversary-cat-home" aria-hidden="true">

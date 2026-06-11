@@ -46,6 +46,51 @@ body.boot-lock {
   display: none;
 }
 
+.bgm-start-prompt {
+  position: fixed;
+  left: 50%;
+  bottom: clamp(4.8rem, 9vh, 7rem);
+  z-index: 98;
+  display: grid;
+  gap: 0.2rem;
+  min-width: min(18rem, calc(100vw - 48px));
+  padding: 0.78rem 1.1rem;
+  border: 1px solid rgba(255, 248, 235, 0.18);
+  border-radius: 999px;
+  background: rgba(8, 8, 8, 0.22);
+  color: rgba(255, 248, 235, 0.72);
+  transform: translateX(-50%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  cursor: pointer;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease,
+    border-color 220ms ease;
+}
+
+.bgm-start-prompt:hover,
+.bgm-start-prompt:focus-visible {
+  border-color: rgba(255, 248, 235, 0.42);
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+.bgm-start-prompt span {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.bgm-start-prompt strong {
+  font-family: var(--serif);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
 .bgm-controls {
   position: fixed;
   right: 1.3rem;

@@ -340,6 +340,13 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
         <source src={withBase("/assets/music/long-confession.mp3")} type="audio/mpeg" />
       </audio>
 
+      {!isPlaying && currentTime < 0.8 && (
+        <button type="button" className="bgm-start-prompt" onClick={handleTogglePlayback}>
+          <span>Click to begin</span>
+          <strong>开始这段航行</strong>
+        </button>
+      )}
+
       <div className="bgm-controls" aria-label="背景音乐控制">
         <button
           type="button"

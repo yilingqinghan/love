@@ -20,6 +20,131 @@ body::-webkit-scrollbar {
   background: linear-gradient(180deg, #070706 0%, #11110f 45%, #f0e6d5 100%);
 }
 
+.site-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 86;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.22), transparent 10%, transparent 88%, rgba(0, 0, 0, 0.24)),
+    radial-gradient(ellipse at 50% 50%, transparent 58%, rgba(0, 0, 0, 0.14) 100%);
+  mix-blend-mode: multiply;
+}
+
+.chapter-progress {
+  position: fixed;
+  right: clamp(14px, 1.8vw, 28px);
+  top: 50%;
+  z-index: 92;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 12px;
+  align-items: center;
+  color: rgba(255, 248, 235, 0.64);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.chapter-progress-line {
+  position: relative;
+  width: 1px;
+  height: min(46vh, 390px);
+  overflow: hidden;
+  background: rgba(255, 248, 235, 0.14);
+}
+
+.chapter-progress-line span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: calc(var(--chapter-progress, 0) * 100%);
+  background: linear-gradient(180deg, rgba(212, 255, 240, 0.2), rgba(255, 238, 184, 0.9));
+  box-shadow: 0 0 18px rgba(255, 238, 184, 0.34);
+}
+
+.chapter-progress-dots {
+  display: grid;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+.chapter-progress-dot {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 248, 235, 0.46);
+  cursor: pointer;
+}
+
+.chapter-progress-dot::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: inherit;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+  transition:
+    width 220ms ease,
+    height 220ms ease,
+    color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.chapter-progress-dot span {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.08em;
+  opacity: 0;
+  transform: translateY(-50%) translateX(4px);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.chapter-progress-dot:hover::before,
+.chapter-progress-dot.is-active::before {
+  width: 9px;
+  height: 9px;
+  color: rgba(255, 240, 188, 0.96);
+  box-shadow: 0 0 18px rgba(255, 240, 188, 0.48);
+}
+
+.chapter-progress-dot:hover span,
+.chapter-progress-dot.is-active span {
+  opacity: 1;
+  transform: translateY(-50%);
+}
+
+.chapter-progress-label {
+  position: absolute;
+  right: 28px;
+  bottom: calc(100% + 18px);
+  width: max-content;
+  margin: 0;
+  color: rgba(255, 248, 235, 0.54);
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+@media (max-width: 760px) {
+  .chapter-progress {
+    display: none;
+  }
+}
+
 .boot-overlay {
   position: fixed;
   inset: 0;
@@ -8812,6 +8937,42 @@ body::-webkit-scrollbar {
   color: rgba(161, 97, 120, 0.72);
 }
 
+.anniversary-certificate-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.anniversary-certificate-cell {
+  min-height: 86px;
+  padding: 14px 14px 12px;
+  border: 1px solid rgba(211, 146, 170, 0.28);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.48), rgba(255, 244, 248, 0.26));
+}
+
+.anniversary-certificate-cell span {
+  display: block;
+  margin-bottom: 12px;
+  color: rgba(150, 88, 112, 0.62);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+}
+
+.anniversary-certificate-cell strong {
+  display: block;
+  color: rgba(113, 59, 80, 0.92);
+  font-family: var(--display);
+  font-size: clamp(1.02rem, 1.35vw, 1.42rem);
+  line-height: 1.12;
+  font-weight: 600;
+}
+
 .anniversary-ribbons {
   display: flex;
   flex-wrap: wrap;
@@ -8846,6 +9007,73 @@ body::-webkit-scrollbar {
   font-size: clamp(1.12rem, 1.32vw, 1.5rem);
   line-height: 1.85;
   color: rgba(104, 53, 72, 0.92);
+}
+
+.anniversary-future-list {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+  width: min(44rem, calc(100% - 160px));
+}
+
+.anniversary-future-list span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: rgba(212, 79, 127, 0.08);
+  color: rgba(119, 60, 82, 0.84);
+  font-size: 0.92rem;
+  line-height: 1;
+}
+
+.anniversary-future-list span::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-right: 9px;
+  border-radius: 999px;
+  background: rgba(212, 79, 127, 0.48);
+  box-shadow: 0 0 12px rgba(212, 79, 127, 0.28);
+}
+
+.anniversary-seal {
+  position: absolute;
+  right: clamp(32px, 4vw, 58px);
+  top: clamp(38px, 4.5vw, 68px);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: clamp(90px, 9vw, 132px);
+  aspect-ratio: 1;
+  border: 2px solid rgba(196, 68, 111, 0.48);
+  border-radius: 999px;
+  color: rgba(196, 68, 111, 0.72);
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 2.4vw, 2.6rem);
+  font-weight: 700;
+  transform: rotate(-10deg);
+  mix-blend-mode: multiply;
+}
+
+.anniversary-seal::before,
+.anniversary-seal::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(196, 68, 111, 0.34);
+  border-radius: inherit;
+}
+
+.anniversary-seal::before {
+  inset: 7px;
+}
+
+.anniversary-seal::after {
+  inset: 15px;
 }
 
 .anniversary-cat-home {
@@ -8928,6 +9156,20 @@ body::-webkit-scrollbar {
     padding: 30px 24px 88px;
   }
 
+  .anniversary-certificate-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .anniversary-future-list {
+    width: 100%;
+  }
+
+  .anniversary-seal {
+    right: 24px;
+    top: 28px;
+    opacity: 0.52;
+  }
+
   .anniversary-title {
     font-size: clamp(2.2rem, 8vw, 4rem);
   }
@@ -8988,6 +9230,19 @@ body::-webkit-scrollbar {
   .anniversary-card {
     padding: 24px 18px 94px;
     border-radius: 24px;
+  }
+
+  .anniversary-certificate-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .anniversary-certificate-cell {
+    min-height: 72px;
+  }
+
+  .anniversary-seal {
+    display: none;
   }
 
   .anniversary-counter {
