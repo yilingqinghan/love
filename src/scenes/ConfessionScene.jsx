@@ -110,7 +110,7 @@ const ConfessionScene = forwardRef(function ConfessionScene({ onAccept }, ref) {
 
     const timer = window.setTimeout(() => {
       setEnvelopeReady(true);
-    }, 700);
+    }, 260);
 
     return () => window.clearTimeout(timer);
   }, [treeDone]);
@@ -134,7 +134,7 @@ const ConfessionScene = forwardRef(function ConfessionScene({ onAccept }, ref) {
     onAccept?.();
   }, [onAccept]);
 
-  const showSakura = treeDone && envelopeReady && !treeVisible;
+  const showSakura = treeDone;
   const showHeart = letterOpen;
 
   return (

@@ -12,7 +12,7 @@ export function useConfession({ sectionRef, onActivate }) {
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: section,
-        start: "top top",
+        start: "top 55%",
         end: "bottom bottom",
         onEnter: () => onActivate?.(),
         onEnterBack: () => onActivate?.(),
