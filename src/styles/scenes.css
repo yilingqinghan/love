@@ -7112,23 +7112,23 @@ body::-webkit-scrollbar {
 }
 
 .food-note {
-  inset: 50% auto auto 50%;
-  z-index: 4;
-  width: min(42rem, calc(100vw - 96px));
+  inset: clamp(70px, 10vh, 112px) auto auto 50%;
+  z-index: 7;
+  width: min(58rem, calc(100vw - 96px));
   height: auto;
   pointer-events: none;
   display: grid;
   gap: 10px;
   text-align: center;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
 }
 
 .food-note-viewport {
   position: relative;
   width: 100%;
-  height: clamp(168px, 28vh, 288px);
+  height: clamp(230px, 34vh, 360px);
   overflow: hidden;
-  mask-image: linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 7%, #000 94%, transparent 100%);
 }
 
 .food-note-track {
@@ -7140,15 +7140,16 @@ body::-webkit-scrollbar {
 .food-note p {
   margin: 0;
   font-family: var(--romantic);
-  font-size: clamp(1.1rem, 1.35vw, 1.36rem);
-  line-height: 1.9;
+  font-size: clamp(1.28rem, 1.62vw, 1.72rem);
+  line-height: 1.82;
   white-space: pre-line;
-  color: rgba(72, 52, 34, 0.88);
+  color: rgba(55, 38, 25, 0.94);
+  text-shadow: 0 12px 34px rgba(255, 255, 255, 0.58);
   overflow-wrap: anywhere;
 }
 
 .food-card-stack {
-  inset: 126px 44px 176px 44px;
+  inset: clamp(300px, 38vh, 410px) 44px 96px 44px;
   z-index: 4;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -7263,13 +7264,13 @@ body::-webkit-scrollbar {
   }
 
   .food-note {
-    inset: 54% 20px auto 20px;
+    inset: 72px 20px auto 20px;
     width: auto;
-    transform: translateY(-50%);
+    transform: none;
   }
 
   .food-card-stack {
-    inset: 126px 20px 188px;
+    inset: 330px 20px 108px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px;
   }
@@ -7282,7 +7283,7 @@ body::-webkit-scrollbar {
 @media (max-width: 640px) {
   .food-card-stack {
     grid-template-columns: 1fr;
-    inset: 112px 16px 210px;
+    inset: 300px 16px 120px;
   }
 
   .food-card-shell {
@@ -7292,7 +7293,7 @@ body::-webkit-scrollbar {
 
 .parallel-ascent-section {
   position: relative;
-  min-height: 6000px;
+  min-height: 5600px;
   overflow: clip;
   background: #0d1120;
 }
@@ -7508,20 +7509,22 @@ body::-webkit-scrollbar {
 
 .parallel-ascent-lines {
   position: absolute;
-  right: clamp(32px, 4vw, 76px);
-  bottom: 7vh;
-  width: min(34rem, 32vw);
+  top: 50%;
+  left: 50%;
+  z-index: 5;
+  width: min(52rem, 68vw);
   display: grid;
   gap: 16px;
-  text-align: right;
+  text-align: center;
+  transform: translate(-50%, -50%);
 }
 
 .parallel-ascent-lines-viewport {
   position: relative;
   width: 100%;
-  height: clamp(188px, 34vh, 360px);
+  height: clamp(270px, 46vh, 500px);
   overflow: hidden;
-  mask-image: linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 8%, #000 92%, transparent 100%);
 }
 
 .parallel-ascent-lines-track {
@@ -7532,7 +7535,7 @@ body::-webkit-scrollbar {
 
 .parallel-ascent-lines p {
   margin: 0;
-  font-size: clamp(0.98rem, 1.18vw, 1.36rem);
+  font-size: clamp(1.08rem, 1.32vw, 1.52rem);
   line-height: 1.86;
   font-weight: 600;
   white-space: pre-line;
@@ -7545,7 +7548,7 @@ body::-webkit-scrollbar {
   top: 0;
   left: 0;
   width: 100%;
-  height: 6000px;
+  height: 5600px;
   pointer-events: none;
 }
 
@@ -7581,7 +7584,7 @@ body::-webkit-scrollbar {
   }
 
   .parallel-ascent-lines {
-    width: min(28rem, 44vw);
+    width: min(34rem, 54vw);
   }
 }
 
@@ -7622,11 +7625,12 @@ body::-webkit-scrollbar {
   }
 
   .parallel-ascent-lines {
-    left: 18px;
-    right: 18px;
-    bottom: 4vh;
+    left: 50%;
+    right: auto;
+    top: 56%;
     width: auto;
-    text-align: left;
+    width: calc(100% - 36px);
+    text-align: center;
   }
 
   .parallel-ascent-lines p {

@@ -60,9 +60,9 @@ export function useParallelAscent({ sectionRef, ready }) {
           ease: "none",
           scrollTrigger: {
             trigger: scrollEl,
-            start: "72% top",
+            start: "66% top",
             end: "bottom bottom",
-            scrub: 1.2,
+            scrub: 1.55,
             invalidateOnRefresh: true,
           },
         });
@@ -245,8 +245,8 @@ export function useParallelAscent({ sectionRef, ready }) {
       ScrollTrigger.create({
         animation: fstarTL,
         trigger: scrollEl,
-        start: "4200 top",
-        end: "6000 bottom",
+        start: "3800 top",
+        end: "5600 bottom",
         scrub: 2,
         onEnter: function () {
           gsap.set("#fstar", { opacity: 1 });
@@ -272,9 +272,9 @@ export function useParallelAscent({ sectionRef, ready }) {
         defaults: { ease: "power3.out" },
         scrollTrigger: {
           trigger: scrollEl,
-          start: "70% top",
+          start: "64% top",
           end: "bottom bottom",
-          scrub: 1.15,
+          scrub: 1.45,
           invalidateOnRefresh: true,
           onEnter: () => {
             collisionFx.reset();
@@ -302,16 +302,16 @@ export function useParallelAscent({ sectionRef, ready }) {
         .to(".parallel-ascent-svg", { filter: "blur(10px) brightness(0.78)", scale: 1.035, duration: 0.18 }, 0.06)
         .to(".parallel-ascent-haze", { autoAlpha: 1, duration: 0.16 }, 0.08)
         .to(".parallel-collision-canvas", { autoAlpha: 0.18, duration: 0.16 }, 0.12)
-        .to(".parallel-ascent-title", { autoAlpha: 1, y: 0, duration: 0.16 }, 0.18)
-        .to(".parallel-panel-left", { autoAlpha: 1, x: 0, y: 0, duration: 0.16 }, 0.26)
-        .to(".parallel-panel-right", { autoAlpha: 1, x: 0, y: 0, duration: 0.16 }, 0.3)
-        .to(".parallel-axis", { autoAlpha: 1, y: 0, scale: 1, duration: 0.16 }, 0.36)
-        .to(".parallel-ascent-lines p", { autoAlpha: 1, y: 0, stagger: 0.12, duration: 0.16 }, 0.42)
-        .to(".parallel-fireworks-canvas", { autoAlpha: 1, duration: 0.18 }, 0.82)
+        .to(".parallel-ascent-title", { autoAlpha: 1, y: 0, duration: 0.18 }, 0.2)
+        .to(".parallel-panel-left", { autoAlpha: 1, x: 0, y: 0, duration: 0.18 }, 0.32)
+        .to(".parallel-panel-right", { autoAlpha: 1, x: 0, y: 0, duration: 0.18 }, 0.38)
+        .to(".parallel-axis", { autoAlpha: 1, y: 0, scale: 1, duration: 0.18 }, 0.48)
+        .to(".parallel-ascent-lines p", { autoAlpha: 1, y: 0, stagger: 0.16, duration: 0.22 }, 0.56)
+        .to(".parallel-fireworks-canvas", { autoAlpha: 1, duration: 0.18 }, 0.92)
         .call(() => {
           collisionFx.fadeOut();
           fireworksFx.start(4200);
-        }, null, 0.82);
+        }, null, 0.92);
 
       function resetNarrative() {
         narrativeTL.pause(0);

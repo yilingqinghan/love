@@ -102,6 +102,19 @@ export function useFoodFeast({ sectionRef, canvasRef }) {
 
       tl
         .to(q(".food-stage-header"), { autoAlpha: 1, y: 0, duration: 0.12, ease: "power2.out" }, 0.05)
+        .to(q(".food-note"), { autoAlpha: 1, y: 0, duration: 0.2, ease: "power3.out" }, 0.14)
+        .to(
+          noteTrack,
+          {
+            y: () => {
+              if (!noteViewport || !noteTrack) return 0;
+              return -Math.max(0, noteTrack.scrollHeight - noteViewport.clientHeight);
+            },
+            duration: 0.74,
+            ease: "none",
+          },
+          0.2
+        )
         .to(q(".food-canvas-wrap"), { autoAlpha: 1, duration: 0.12, ease: "power2.out" }, 0.28)
         .to(
           q(".food-menu-frame"),
@@ -115,19 +128,7 @@ export function useFoodFeast({ sectionRef, canvasRef }) {
           { autoAlpha: 1, y: 0, stagger: 0.05, duration: 0.16, ease: "power3.out" },
           0.78
         )
-        .to(q(".food-note"), { autoAlpha: 1, y: 0, duration: 0.16, ease: "power3.out" }, 0.88)
-        .to(
-          noteTrack,
-          {
-            y: () => {
-              if (!noteViewport || !noteTrack) return 0;
-              return -Math.max(0, noteTrack.scrollHeight - noteViewport.clientHeight);
-            },
-            duration: 0.54,
-            ease: "none",
-          },
-          0.92
-        );
+        .to(q(".food-note"), { autoAlpha: 0.92, duration: 0.18, ease: "power2.out" }, 0.88);
     }, section);
 
     return () => ctx.revert();

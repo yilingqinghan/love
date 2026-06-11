@@ -7,7 +7,7 @@ const CONFESSION_FINALE_LEAD_SECONDS = 52;
 const FALLBACK_DURATION_SECONDS = 288.301361;
 const MIN_SCROLL_SPEED = 88;
 const MAX_SCROLL_SPEED = 360;
-const SCROLL_PULSE_INTERVAL_MS = 120;
+const MAX_SCROLL_FRAME_DELTA_MS = 42;
 const MANUAL_SCROLL_PAUSE_MS = 1800;
 const SECTION_SCROLL_FACTORS = [
   [".probability-section", 0.72],
@@ -86,7 +86,6 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
   const audioRef = useRef(null);
   const frameRef = useRef(0);
   const lastFrameTimeRef = useRef(0);
-  const lastPulseTimeRef = useRef(0);
   const manualPauseUntilRef = useRef(0);
   const resumeHandlerRef = useRef(null);
   const autoStartedRef = useRef(false);
@@ -162,29 +161,20 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
           : FALLBACK_DURATION_SECONDS;
         const currentAudioTime = audio?.currentTime || 0;
         const secondsLeft = Math.max(duration - CONFESSION_FINALE_LEAD_SECONDS - currentAudioTime, 18);
-        const lastPulseTime = lastPulseTimeRef.current || time;
-        const pulseDelta = time - lastPulseTime;
+        const lastFrameTime = lastFrameTimeRef.current || time;
+        const frameDelta = Math.min(Math.max(time - lastFrameTime, 0), MAX_SCROLL_FRAME_DELTA_MS);
         const finalSceneTop = finalSceneRef?.current?.getBoundingClientRect?.().top ?? Infinity;
         const isTemporarilyPaused =
           document.body.classList.contains("boot-lock") || Date.now() < manualPauseUntilRef.current;
 
-        if (isTemporarilyPaused) {
-          lastPulseTimeRef.current = time;
-        }
-
-        if (
-          !isTemporarilyPaused &&
-          distanceLeft > 2 &&
-          pulseDelta >= SCROLL_PULSE_INTERVAL_MS
-        ) {
+        if (!isTemporarilyPaused && distanceLeft > 2 && frameDelta > 0) {
           const baseSpeed = clamp(distanceLeft / secondsLeft, MIN_SCROLL_SPEED, MAX_SCROLL_SPEED);
           const speed = baseSpeed * getActiveSectionScrollFactor();
           window.scrollBy({
-            top: (speed * pulseDelta) / 1000,
+            top: (speed * frameDelta) / 1000,
             left: 0,
             behavior: "auto",
           });
-          lastPulseTimeRef.current = time;
         }
 
         if (finalSceneTop <= 2 && distanceLeft <= 2) {
@@ -194,7 +184,6 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
         lastFrameTimeRef.current = time;
       } else {
         lastFrameTimeRef.current = time;
-        lastPulseTimeRef.current = time;
       }
 
       frameRef.current = window.requestAnimationFrame(tick);
@@ -249,7 +238,6 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
       autoStartedRef.current = true;
       autoScrollEnabledRef.current = true;
       lastFrameTimeRef.current = performance.now();
-      lastPulseTimeRef.current = performance.now();
 
       audio
         .play()
@@ -328,7 +316,6 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
       autoStartedRef.current = true;
       autoScrollEnabledRef.current = true;
       lastFrameTimeRef.current = performance.now();
-      lastPulseTimeRef.current = performance.now();
       audio.play().catch(() => {});
     } else {
       autoScrollEnabledRef.current = false;
