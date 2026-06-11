@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import { sceneDistance, sceneScrub } from "../config/timing.js";
+
 gsap.registerPlugin(ScrollTrigger);
 
 export function useHomeNest({ sectionRef }) {
@@ -36,9 +38,9 @@ export function useHomeNest({ sectionRef }) {
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: "+=6200",
+          end: `+=${sceneDistance("homeNest")}`,
           pin: true,
-          scrub: 1,
+          scrub: sceneScrub(1),
           anticipatePin: 1,
           invalidateOnRefresh: true,
         },

@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import { sceneDistance, sceneScrub } from "../config/timing.js";
+
 gsap.registerPlugin(ScrollTrigger);
 
 export function useSceneAnimations({ refs, bootMessages, setBootLines }) {
@@ -95,7 +97,7 @@ export function useSceneAnimations({ refs, bootMessages, setBootLines }) {
           trigger: heroRef.current,
           start: "top top",
           end: "bottom top",
-          scrub: 0.8,
+          scrub: sceneScrub(0.8),
         },
       });
 
@@ -108,7 +110,7 @@ export function useSceneAnimations({ refs, bootMessages, setBootLines }) {
           trigger: heroRef.current,
           start: "top top",
           end: "bottom top",
-          scrub: 0.9,
+          scrub: sceneScrub(0.9),
         },
       });
 
@@ -128,7 +130,7 @@ export function useSceneAnimations({ refs, bootMessages, setBootLines }) {
             trigger: timelineRef.current,
             start: "top bottom",
             end: "bottom top",
-            scrub: 1.15,
+            scrub: sceneScrub(1.15),
           },
         });
 
@@ -190,9 +192,9 @@ export function useSceneAnimations({ refs, bootMessages, setBootLines }) {
           scrollTrigger: {
             trigger: worldRef.current,
             start: "top top",
-            end: "+=1500",
+            end: `+=${sceneDistance("worldMerge")}`,
             pin: true,
-            scrub: 1.2,
+            scrub: sceneScrub(1.2),
             anticipatePin: 1,
             invalidateOnRefresh: true,
           },

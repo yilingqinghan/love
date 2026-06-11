@@ -7,12 +7,11 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { Sky } from "three/examples/jsm/objects/Sky.js";
 import { Water } from "three/examples/jsm/objects/Water.js";
 
+import { sceneDistance, sceneScrub } from "../config/timing.js";
 import { getFrameInterval, getSceneQuality } from "../utils/performance.js";
 import { withBase } from "../utils/paths.js";
 
 gsap.registerPlugin(ScrollTrigger, CustomEase);
-
-const OCEAN_SCROLL_DISTANCE = 9400;
 
 const DOLPHIN_MODEL_URL = withBase("/assets/ocean/dolphin.glb");
 const WATER_NORMALS_URL = withBase("/assets/ocean/dolphin-waternormals.jpg");
@@ -396,9 +395,9 @@ export function useOceanEcho({ sectionRef, canvasRef }) {
       scrollTrigger: {
         trigger: section,
         start: "top top",
-        end: `+=${OCEAN_SCROLL_DISTANCE}`,
+        end: `+=${sceneDistance("oceanEcho")}`,
         pin: true,
-        scrub: 1.18,
+        scrub: sceneScrub(1.18),
         anticipatePin: 1,
         invalidateOnRefresh: true,
       },

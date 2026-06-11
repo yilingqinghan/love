@@ -5,6 +5,7 @@ import {
   parallelAscentMilestones,
   parallelAscentPanels,
 } from "../data/copy.js";
+import { sceneDistance } from "../config/timing.js";
 import { useParallelAscent } from "../hooks/useParallelAscent.js";
 import { withBase } from "../utils/paths.js";
 
@@ -37,7 +38,12 @@ const ParallelAscentScene = forwardRef(function ParallelAscentScene(_, ref) {
   }, []);
 
   return (
-    <section ref={ref} className="parallel-ascent-section" aria-label="学业与事业篇章">
+    <section
+      ref={ref}
+      className="parallel-ascent-section"
+      style={{ "--parallel-scroll-distance": `${sceneDistance("parallelAscent")}px` }}
+      aria-label="学业与事业篇章"
+    >
       <div className="parallel-ascent-stage">
         <div
           className="parallel-ascent-svg"

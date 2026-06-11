@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import { sceneScrub } from "../config/timing.js";
+
 gsap.registerPlugin(ScrollTrigger);
 
 export function useParallelAscent({ sectionRef, ready }) {
@@ -62,7 +64,7 @@ export function useParallelAscent({ sectionRef, ready }) {
             trigger: scrollEl,
             start: "58% top",
             end: "bottom bottom",
-            scrub: 0.9,
+            scrub: sceneScrub(0.9),
             invalidateOnRefresh: true,
           },
         });
@@ -74,7 +76,7 @@ export function useParallelAscent({ sectionRef, ready }) {
         trigger: scrollEl,
         start: "top top",
         end: "36% 100%",
-        scrub: 1.25,
+        scrub: sceneScrub(1.25),
       });
 
       scene1.to("#h1-1", { y: 3 * speed, x: 1 * speed, scale: 0.9, ease: "power1.in" }, 0);
@@ -103,7 +105,7 @@ export function useParallelAscent({ sectionRef, ready }) {
             trigger: scrollEl,
             start: "15% top",
             end: "48% 100%",
-            scrub: 1.3,
+            scrub: sceneScrub(1.3),
             onEnter: function () {
               gsap.to("#bird", { scaleX: 1, rotation: 0 });
             },
@@ -120,7 +122,7 @@ export function useParallelAscent({ sectionRef, ready }) {
         trigger: scrollEl,
         start: "top top",
         end: "52% 100%",
-        scrub: 0.75,
+        scrub: sceneScrub(0.75),
       });
 
       clouds.to("#cloud1", { x: 500 }, 0);
@@ -134,7 +136,7 @@ export function useParallelAscent({ sectionRef, ready }) {
         trigger: scrollEl,
         start: "1% top",
         end: "1650 100%",
-        scrub: 0.9,
+        scrub: sceneScrub(0.9),
       });
 
       sun.fromTo("#bg_grad", { attr: { cy: "-50" } }, { attr: { cy: "330" } }, 0);
@@ -150,7 +152,7 @@ export function useParallelAscent({ sectionRef, ready }) {
         trigger: scrollEl,
         start: "15% top",
         end: "33% 100%",
-        scrub: 1.1,
+        scrub: sceneScrub(1.1),
       });
 
       scene2.fromTo("#h2-1", { y: 500, opacity: 0 }, { y: 0, opacity: 1 }, 0);
@@ -172,7 +174,7 @@ export function useParallelAscent({ sectionRef, ready }) {
             trigger: scrollEl,
             start: "40% top",
             end: "52% 100%",
-            scrub: 1,
+            scrub: sceneScrub(1),
             onEnter: function () {
               gsap.utils.toArray("#bats path").forEach((item, i) => {
                 gsap.to(item, {
@@ -196,7 +198,7 @@ export function useParallelAscent({ sectionRef, ready }) {
         trigger: scrollEl,
         start: "1550 top",
         end: "3900 100%",
-        scrub: 1,
+        scrub: sceneScrub(1),
       });
 
       sun2.to("#sun", { attr: { offset: "1.4" } }, 0);
@@ -213,7 +215,7 @@ export function useParallelAscent({ sectionRef, ready }) {
         trigger: scrollEl,
         start: "50% top",
         end: "bottom 100%",
-        scrub: 1.1,
+        scrub: sceneScrub(1.1),
       });
 
       sceneTransition.to("#h2-1", { y: -height - 100, scale: 1.5, transformOrigin: "50% 50%" }, 0);
@@ -226,7 +228,7 @@ export function useParallelAscent({ sectionRef, ready }) {
         trigger: scrollEl,
         start: "58% 50%",
         end: "bottom 100%",
-        scrub: 1.1,
+        scrub: sceneScrub(1.1),
       });
 
       scene3.fromTo("#h3-1", { y: 300 }, { y: -550 }, 0);
@@ -247,7 +249,7 @@ export function useParallelAscent({ sectionRef, ready }) {
         trigger: scrollEl,
         start: "3000 top",
         end: "4700 bottom",
-        scrub: 1,
+        scrub: sceneScrub(1),
         onEnter: function () {
           gsap.set("#fstar", { opacity: 1 });
         },
@@ -274,7 +276,7 @@ export function useParallelAscent({ sectionRef, ready }) {
           trigger: scrollEl,
           start: "54% top",
           end: "bottom bottom",
-          scrub: 1,
+          scrub: sceneScrub(1),
           invalidateOnRefresh: true,
           onEnter: () => {
             collisionFx.reset();

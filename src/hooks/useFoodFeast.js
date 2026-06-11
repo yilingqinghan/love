@@ -3,6 +3,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+
+import { sceneDistance, sceneScrub } from "../config/timing.js";
 import { withBase } from "../utils/paths.js";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -71,9 +73,9 @@ export function useFoodFeast({ sectionRef, canvasRef }) {
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: "+=4800",
+          end: `+=${sceneDistance("foodFeast")}`,
           pin: true,
-          scrub: 1,
+          scrub: sceneScrub(1),
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onEnter: () => {

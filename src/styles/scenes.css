@@ -7418,7 +7418,7 @@ body::-webkit-scrollbar {
 
 .parallel-ascent-section {
   position: relative;
-  min-height: 4700px;
+  min-height: var(--parallel-scroll-distance, 4700px);
   overflow: clip;
   background: #0d1120;
 }
@@ -7673,7 +7673,7 @@ body::-webkit-scrollbar {
   top: 0;
   left: 0;
   width: 100%;
-  height: 4700px;
+  height: var(--parallel-scroll-distance, 4700px);
   pointer-events: none;
 }
 

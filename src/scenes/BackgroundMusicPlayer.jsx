@@ -1,23 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { AUTO_SCROLL_TIMING } from "../config/timing.js";
 import { withBase } from "../utils/paths.js";
-
-const SONG_AUTOPLAY_DELAY_MS = 5000;
-const CONFESSION_FINALE_LEAD_SECONDS = 92;
-const FALLBACK_DURATION_SECONDS = 288.301361;
-const MIN_SCROLL_SPEED = 150;
-const MAX_SCROLL_SPEED = 1050;
-const MAX_SCROLL_FRAME_DELTA_MS = 42;
-const MANUAL_SCROLL_PAUSE_MS = 260;
-const TARGET_REFRESH_INTERVAL_MS = 420;
-const SECTION_SCROLL_FACTORS = [
-  [".probability-section", 1.05],
-  [".sky-route-section", 1.03],
-  [".ocean-echo-section", 1],
-  [".travel-atlas-section", 1.12],
-  [".home-nest-section", 1.08],
-  [".parallel-ascent-section", 1.18],
-];
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
@@ -65,7 +49,7 @@ function getActiveSectionScrollFactor() {
     return 1;
   }
 
-  const match = SECTION_SCROLL_FACTORS.find(([selector]) => section.matches(selector));
+  const match = AUTO_SCROLL_TIMING.sectionSpeedFactors.find(([selector]) => section.matches(selector));
   return match?.[1] ?? 1;
 }
 
@@ -170,7 +154,10 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
       const audio = audioRef.current;
 
       if (autoScrollEnabledRef.current && !document.hidden) {
-        if (!targetYRef.current || time - lastTargetRefreshRef.current > TARGET_REFRESH_INTERVAL_MS) {
+        if (
+          !targetYRef.current ||
+          time - lastTargetRefreshRef.current > AUTO_SCROLL_TIMING.targetRefreshIntervalMs
+        ) {
           targetYRef.current = getStableTargetScrollY(finalSceneRef);
           lastTargetRefreshRef.current = time;
         }
@@ -179,18 +166,25 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
         const distanceLeft = Math.max(0, targetY - window.scrollY);
         const duration = Number.isFinite(audio?.duration) && audio.duration > 0
           ? audio.duration
-          : FALLBACK_DURATION_SECONDS;
+          : AUTO_SCROLL_TIMING.fallbackSongDurationSeconds;
         const currentAudioTime = audio?.currentTime || 0;
-        const scrollSyncDuration = Math.max(duration - CONFESSION_FINALE_LEAD_SECONDS, 120);
+        const scrollSyncDuration = Math.max(duration - AUTO_SCROLL_TIMING.confessionFinaleLeadSeconds, 90);
         const secondsLeft = Math.max(scrollSyncDuration - currentAudioTime, 8);
         const lastFrameTime = lastFrameTimeRef.current || time;
-        const frameDelta = Math.min(Math.max(time - lastFrameTime, 0), MAX_SCROLL_FRAME_DELTA_MS);
+        const frameDelta = Math.min(
+          Math.max(time - lastFrameTime, 0),
+          AUTO_SCROLL_TIMING.maxFrameDeltaMs
+        );
         const finalSceneTop = finalSceneRef?.current?.getBoundingClientRect?.().top ?? Infinity;
         const isTemporarilyPaused =
           document.body.classList.contains("boot-lock") || Date.now() < manualPauseUntilRef.current;
 
         if (!isTemporarilyPaused && distanceLeft > 2 && frameDelta > 0) {
-          const baseSpeed = clamp(distanceLeft / secondsLeft, MIN_SCROLL_SPEED, MAX_SCROLL_SPEED);
+          const baseSpeed = clamp(
+            distanceLeft / secondsLeft,
+            AUTO_SCROLL_TIMING.minSpeedPxPerSecond,
+            AUTO_SCROLL_TIMING.maxSpeedPxPerSecond
+          );
           const speed = baseSpeed * getActiveSectionScrollFactor();
           const nextY = Math.min(targetY, window.scrollY + (speed * frameDelta) / 1000);
           window.scrollTo({
@@ -245,7 +239,7 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
         return;
       }
 
-      manualPauseUntilRef.current = Date.now() + MANUAL_SCROLL_PAUSE_MS;
+      manualPauseUntilRef.current = Date.now() + AUTO_SCROLL_TIMING.manualScrollPauseMs;
     };
 
     const pauseForManualKey = (event) => {
@@ -326,7 +320,7 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
         });
     };
 
-    const timer = window.setTimeout(startExperience, SONG_AUTOPLAY_DELAY_MS);
+    const timer = window.setTimeout(startExperience, AUTO_SCROLL_TIMING.autoplayDelayMs);
 
     return () => {
       window.clearTimeout(timer);

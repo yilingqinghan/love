@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
 
+import { sceneDistance, sceneScrub } from "../config/timing.js";
 import { getFrameInterval, getSceneQuality } from "../utils/performance.js";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -314,9 +315,9 @@ export function useSignalSearch({ sectionRef, canvasRef }) {
       scrollTrigger: {
         trigger: section,
         start: "top top",
-        end: "+=6000",
+        end: `+=${sceneDistance("signalSearch")}`,
         pin: true,
-        scrub: 1.25,
+        scrub: sceneScrub(1.25),
         anticipatePin: 1,
         invalidateOnRefresh: true,
       },

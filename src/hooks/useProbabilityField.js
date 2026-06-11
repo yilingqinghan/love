@@ -3,11 +3,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
 
+import { sceneDistance, sceneScrub } from "../config/timing.js";
 import { getFrameInterval, getSceneQuality } from "../utils/performance.js";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const PROBABILITY_SCROLL_DISTANCE = 13200;
 
 const vertexShader = `
   varying vec2 vUv;
@@ -510,9 +509,9 @@ export function useProbabilityField({ sectionRef, canvasRef }) {
       scrollTrigger: {
         trigger: section,
         start: "top top",
-        end: `+=${PROBABILITY_SCROLL_DISTANCE}`,
+        end: `+=${sceneDistance("probability")}`,
         pin: true,
-        scrub: 1.35,
+        scrub: sceneScrub(1.35),
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {

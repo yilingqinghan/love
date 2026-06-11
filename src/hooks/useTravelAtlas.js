@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { sceneDistance, sceneScrub } from "../config/timing.js";
 import { withBase } from "../utils/paths.js";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -60,9 +61,9 @@ export function useTravelAtlas({ sectionRef, activePhoto, capturedCount, flashAc
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: "+=7600",
+          end: `+=${sceneDistance("travelAtlas")}`,
           pin: true,
-          scrub: 1,
+          scrub: sceneScrub(1),
           anticipatePin: 1,
           invalidateOnRefresh: true,
         },

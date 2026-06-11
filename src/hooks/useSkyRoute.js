@@ -5,12 +5,11 @@ import * as THREE from "three";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
+import { sceneDistance, sceneScrub } from "../config/timing.js";
 import { getFrameInterval, getSceneQuality } from "../utils/performance.js";
 import { withBase } from "../utils/paths.js";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const SKY_SCROLL_DISTANCE = 8400;
 
 function createAirParticleLayer({ count = 1500 } = {}) {
   const positions = new Float32Array(count * 3);
@@ -513,9 +512,9 @@ export function useSkyRoute({ sectionRef, canvasRef }) {
       scrollTrigger: {
         trigger: section,
         start: "top top",
-        end: `+=${SKY_SCROLL_DISTANCE}`,
+        end: `+=${sceneDistance("skyRoute")}`,
         pin: true,
-        scrub: 1.12,
+        scrub: sceneScrub(1.12),
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
