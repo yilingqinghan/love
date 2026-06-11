@@ -43,6 +43,7 @@ export function useSceneAnimations({ refs, bootMessages, setBootLines }) {
         defaults: { ease: "power3.out" },
         onComplete: () => {
           document.body.classList.remove("boot-lock");
+          window.dispatchEvent(new Event("love:boot-unlocked"));
         },
       });
 
@@ -267,6 +268,7 @@ export function useSceneAnimations({ refs, bootMessages, setBootLines }) {
     return () => {
       timers.forEach((timer) => window.clearTimeout(timer));
       document.body.classList.remove("boot-lock");
+      window.dispatchEvent(new Event("love:boot-unlocked"));
       ctx.revert();
     };
   }, [bootMessages, refs, setBootLines]);

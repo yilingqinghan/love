@@ -8,7 +8,8 @@ const FALLBACK_DURATION_SECONDS = 288.301361;
 const MIN_SCROLL_SPEED = 88;
 const MAX_SCROLL_SPEED = 360;
 const MAX_SCROLL_FRAME_DELTA_MS = 42;
-const MANUAL_SCROLL_PAUSE_MS = 1800;
+const MANUAL_SCROLL_PAUSE_MS = 260;
+const TARGET_REFRESH_INTERVAL_MS = 420;
 const SECTION_SCROLL_FACTORS = [
   [".probability-section", 0.72],
   [".sky-route-section", 0.84],
@@ -39,6 +40,19 @@ function getTargetScrollY(finalSceneRef) {
   }
 
   return clamp(scene.getBoundingClientRect().top + window.scrollY, 0, maxScroll);
+}
+
+function getStableTargetScrollY(finalSceneRef) {
+  const maxScroll = getMaxScroll();
+  const finalSceneY = getTargetScrollY(finalSceneRef);
+
+  /*
+    自动滚动启动时，字体、iframe、图片、WebGL 资源可能还没全部撑开页面。
+    如果此时 finalScene 的位置被算得异常靠前，直接用它会误判“快到了”，导致滚动停住。
+    所以这里保底使用页面后段位置，后续 tick 会持续重新计算，等布局稳定后自动追上真实终点。
+  */
+  const conservativeTarget = maxScroll * 0.92;
+  return clamp(Math.max(finalSceneY, conservativeTarget), 0, maxScroll);
 }
 
 function getActiveSectionScrollFactor() {
@@ -86,6 +100,8 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
   const audioRef = useRef(null);
   const frameRef = useRef(0);
   const lastFrameTimeRef = useRef(0);
+  const lastTargetRefreshRef = useRef(0);
+  const targetYRef = useRef(0);
   const manualPauseUntilRef = useRef(0);
   const resumeHandlerRef = useRef(null);
   const autoStartedRef = useRef(false);
@@ -154,7 +170,12 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
       const audio = audioRef.current;
 
       if (autoScrollEnabledRef.current && !document.hidden) {
-        const targetY = getTargetScrollY(finalSceneRef);
+        if (!targetYRef.current || time - lastTargetRefreshRef.current > TARGET_REFRESH_INTERVAL_MS) {
+          targetYRef.current = getStableTargetScrollY(finalSceneRef);
+          lastTargetRefreshRef.current = time;
+        }
+
+        const targetY = targetYRef.current;
         const distanceLeft = Math.max(0, targetY - window.scrollY);
         const duration = Number.isFinite(audio?.duration) && audio.duration > 0
           ? audio.duration
@@ -170,14 +191,15 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
         if (!isTemporarilyPaused && distanceLeft > 2 && frameDelta > 0) {
           const baseSpeed = clamp(distanceLeft / secondsLeft, MIN_SCROLL_SPEED, MAX_SCROLL_SPEED);
           const speed = baseSpeed * getActiveSectionScrollFactor();
-          window.scrollBy({
-            top: (speed * frameDelta) / 1000,
+          const nextY = Math.min(targetY, window.scrollY + (speed * frameDelta) / 1000);
+          window.scrollTo({
+            top: nextY,
             left: 0,
             behavior: "auto",
           });
         }
 
-        if (finalSceneTop <= 2 && distanceLeft <= 2) {
+        if (finalSceneTop <= window.innerHeight * 0.5 && distanceLeft <= 2) {
           autoScrollEnabledRef.current = false;
         }
 
@@ -191,8 +213,28 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
 
     frameRef.current = window.requestAnimationFrame(tick);
 
+    const refreshAutoScrollTarget = () => {
+      targetYRef.current = getStableTargetScrollY(finalSceneRef);
+      lastTargetRefreshRef.current = performance.now();
+
+      if (autoStartedRef.current && !document.hidden) {
+        autoScrollEnabledRef.current = true;
+        manualPauseUntilRef.current = 0;
+        lastFrameTimeRef.current = performance.now();
+      }
+    };
+
+    window.addEventListener("love:boot-unlocked", refreshAutoScrollTarget);
+    window.addEventListener("load", refreshAutoScrollTarget);
+    window.addEventListener("resize", refreshAutoScrollTarget);
+    document.addEventListener("visibilitychange", refreshAutoScrollTarget);
+
     return () => {
       window.cancelAnimationFrame(frameRef.current);
+      window.removeEventListener("love:boot-unlocked", refreshAutoScrollTarget);
+      window.removeEventListener("load", refreshAutoScrollTarget);
+      window.removeEventListener("resize", refreshAutoScrollTarget);
+      document.removeEventListener("visibilitychange", refreshAutoScrollTarget);
     };
   }, [finalSceneRef]);
 
@@ -238,6 +280,8 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
       autoStartedRef.current = true;
       autoScrollEnabledRef.current = true;
       lastFrameTimeRef.current = performance.now();
+      targetYRef.current = getStableTargetScrollY(finalSceneRef);
+      lastTargetRefreshRef.current = performance.now();
 
       audio
         .play()
@@ -263,6 +307,8 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
                 audio.muted = false;
                 setIsMuted(false);
                 autoScrollEnabledRef.current = true;
+                targetYRef.current = getStableTargetScrollY(finalSceneRef);
+                lastTargetRefreshRef.current = performance.now();
                 audio.play().catch(() => {});
 
                 if (resumeHandlerRef.current) {
@@ -316,6 +362,8 @@ export default function BackgroundMusicPlayer({ finalSceneRef = null }) {
       autoStartedRef.current = true;
       autoScrollEnabledRef.current = true;
       lastFrameTimeRef.current = performance.now();
+      targetYRef.current = getStableTargetScrollY(finalSceneRef);
+      lastTargetRefreshRef.current = performance.now();
       audio.play().catch(() => {});
     } else {
       autoScrollEnabledRef.current = false;
